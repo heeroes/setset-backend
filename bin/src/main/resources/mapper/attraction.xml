@@ -7,11 +7,11 @@
 	<select id="searchByKeyword" parameterType="map" resultType="attraction">
 		select id, title, content_type_id, addr, image, latitude, longitude, overview, popularity
 		<choose>
-			<when test="contentTypeId == 0">
-				<include refid="searchNoneType"></include>
+			<when test="contentTypeId != null or contentTypeId != 0">
+				<include refid="searchContentType"></include>
 			</when>
 			<otherwise>
-				<include refid="searchContentType"></include>
+				<include refid="searchNoneType"></include>
 			</otherwise>
 		</choose>
 	</select>
@@ -55,7 +55,6 @@
     <select id="getPopularityRank" resultType="attraction">
     	select id, title, content_type_id, addr, image, latitude, longitude, overview, popularity
 		from attraction
-		where popularity > 0
 		order by popularity
 		limit 10
     </select>
