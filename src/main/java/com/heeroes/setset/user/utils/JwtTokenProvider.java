@@ -7,14 +7,20 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
+
 import java.security.Key;
 import java.util.Date;
+
+import javax.crypto.SecretKey;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class JwtTokenProvider {
-    private final Key key;
+    private final SecretKey key;
 
     public JwtTokenProvider(@Value("${jwt.secret-key}") String secretkey){
         byte[] keyBytes = Decoders.BASE64.decode(secretkey);
@@ -52,6 +58,17 @@ public class JwtTokenProvider {
                     .getBody();
         }catch(ExpiredJwtException e){
             return e.getClaims();
+        }
+    }
+    
+    // 토큰 유효성 검사
+    public boolean isValid(String token) {
+        try {
+            Jwts.parser().verifyWith(this.key).build().parseSignedClaims(token);
+            return true;
+        } catch (Exception e) {
+        	log.debug("토큰 유효성 검증 오류 : {}",e.getMessage());
+            return false;
         }
     }
 }
