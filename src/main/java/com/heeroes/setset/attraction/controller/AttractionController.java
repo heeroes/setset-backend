@@ -23,19 +23,34 @@ import lombok.RequiredArgsConstructor;
 public class AttractionController {
 	private final AttractionService attractionService;
 	
-	@GetMapping
+	/**
+	 * 키워드 기반 여행지 검색
+	 *  - 키워드가 포함된 여행지 리스트 반환
+	 *  - 여행지 타입이 0인 경우, 여행지 타입에 따른 여행지 리스트 반환
+	 * @param size : 한 페이지에서 보여줄 여행지 개수
+	 * @param page : 페이지
+	 * @param contentTypeId : 여행지 타입
+	 * @param keyword : 검색 키워드
+	 * @return
+	 */
+	@GetMapping("search")
 	public ResponseEntity<?> searchByKeyword(
 			@RequestParam(defaultValue = "5") int size,
 			@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "0") int contentTypeId,
 			@RequestParam(required = true) String keyword
 	){
-		System.out.println("send");
 		AttractionPaginationResponse response = attractionService.searchByKeyword(size, page, contentTypeId,keyword);
 		return ResponseEntity.ok(response);
 	}
 	
-	@GetMapping("/{id}")
+	/**
+	 * 여행지 상세조회
+	 * 
+	 * @param id : 여행지 id
+	 * @return
+	 */
+	@GetMapping("search/{id}")
 	public ResponseEntity<?> searchById(@PathVariable("id")int id){
 		Attraction attraction = attractionService.searchById(id);
 		
@@ -44,6 +59,10 @@ public class AttractionController {
 		return ResponseEntity.ok(attraction);
 	}
 	
+	/**
+	 * 인기 여행지 순위
+	 * @return
+	 */
 	@GetMapping("/rank")
 	public ResponseEntity<?> getPopularityRank(){
 		List<Attraction> attrationList = attractionService.getPopularityRank();

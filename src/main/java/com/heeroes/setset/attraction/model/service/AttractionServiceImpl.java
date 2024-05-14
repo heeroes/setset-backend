@@ -30,8 +30,6 @@ public class AttractionServiceImpl implements AttractionService {
 		param.put("keyword", keyword);
 		/*======================*/
 		
-		System.out.println("contentType : " + contentTypeId);
-		
 		
 		/*책 목록 조회 응답 데이터 생성*/
 		AttractionPaginationResponse resp = new AttractionPaginationResponse();
@@ -53,9 +51,7 @@ public class AttractionServiceImpl implements AttractionService {
 		
 		//페이지네이션 정보 세팅
 		int totalRow = attractionMapper.totalRow(param);
-		
-		System.out.println("totalRow " + totalRow);
-		
+				
 		int totalPages = ((totalRow-1)/size)+1; 
 		resp.setTotalPages(totalPages);
 		resp.setSize(size);
