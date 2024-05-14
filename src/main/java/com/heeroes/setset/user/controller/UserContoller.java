@@ -28,6 +28,7 @@ public class UserContoller {
     @GetMapping("/login/google")
     public ResponseEntity<AuthTokens> loginByGoogle(@RequestParam String code){
         GoogleLoginParams params = new GoogleLoginParams(code);
+        System.out.println("paramr : " + params);
         return ResponseEntity.ok( oAuthLoginService.login(params));
     }
 }

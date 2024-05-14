@@ -17,4 +17,11 @@ public class GoogleTokens {
     private String expiresIn;
     @JsonProperty("scope")
     private String scope;
+	@Override
+	public String toString() {
+		return "GoogleTokens [accessToken=" + accessToken + ", refreshToken=" + refreshToken + ", tokenType="
+				+ tokenType + ", expiresIn=" + expiresIn + ", scope=" + scope + "]";
+	}
+    
+    
 }

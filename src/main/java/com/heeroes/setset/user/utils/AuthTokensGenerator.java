@@ -19,16 +19,15 @@ public class AuthTokensGenerator {
         Date accessTokenExpiredAt = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         Date refreshTokenExpiredAt = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
 
-        String subject = Integer.toString(userId);
-        String accessToken = jwtTokenProvider.generate(subject, accessTokenExpiredAt);
-        String refreshToken = jwtTokenProvider.generate(subject, refreshTokenExpiredAt);
+        String accessToken = jwtTokenProvider.generate(userId,"access-token", accessTokenExpiredAt);
+        String refreshToken = jwtTokenProvider.generate(userId, "refresh-token", refreshTokenExpiredAt);
 
         return AuthTokens.of(accessToken, refreshToken, BEARER_TYPE, ACCESS_TOKEN_EXPIRE_TIME / 1000L);
 
     }
 
-    public int extractUserId(String accessToken){
-        return Integer.valueOf(jwtTokenProvider.extractSubject(accessToken));
+    public String extractEmail(String accessToken){
+        return jwtTokenProvider.extractEmail(accessToken);
     }
 
 }

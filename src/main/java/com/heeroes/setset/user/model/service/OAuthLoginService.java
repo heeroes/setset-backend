@@ -6,7 +6,12 @@ import com.heeroes.setset.user.dto.OAuthLoginParams;
 import com.heeroes.setset.user.dto.User;
 import com.heeroes.setset.user.model.mapper.UserMapper;
 import com.heeroes.setset.user.utils.AuthTokensGenerator;
+
 import lombok.RequiredArgsConstructor;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +23,9 @@ public class OAuthLoginService {
     public AuthTokens login(OAuthLoginParams params){
         OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
         int userId = findOrCreateUser(oAuthInfoResponse);
-        return authTokensGenerator.generate(userId);
+        AuthTokens authTokens = authTokensGenerator.generate(userId);
+        saveRefreshToken(authTokens.getRefreshToken(),userId);
+        return authTokens;
     }
 
     private int findOrCreateUser(OAuthInfoResponse oAuthInfoResponse){
@@ -40,5 +47,13 @@ public class OAuthLoginService {
                 .oAuthProvider(oAuthInfoResponse.getOAuthProvider())
                 .build();
         userMapper.insert(user);
+    }
+    
+    private void saveRefreshToken(String refreshToken, int userId) {
+    	Map<String, Object> param = new HashMap<>();
+    	param.put("refreshToken", refreshToken);
+    	param.put("userId", userId);
+    	int result = userMapper.saveRefreshToken(param);
+    	System.out.println("save refreshToken:" + result);
     }
 }

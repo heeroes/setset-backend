@@ -6,13 +6,20 @@
 
     <!-- 검색 -->
     <select id="findByEmail" parameterType="String" resultType="user">
-        select id, name, email
+        select id, nickname, email
         from user
         where email=#{email}
     </select>
 
     <insert id="insert" parameterType="user">
-        insert into user(name, email,oAuth_provider )
-        values(#{name}, #{email}, #{oAuthProvider})
+        insert into user(nickname, email,sns_type, sns_connect_date)
+        values(#{name}, #{email}, #{oAuthProvider}, now())
     </insert>
+    
+    <!--  refresh token 넣기 -->
+	<update id="saveRefreshToken" parameterType="map"> 
+	update user set refresh_token=#{refreshToken}
+	where email=#{email} 
+	</update>
+    
 </mapper>

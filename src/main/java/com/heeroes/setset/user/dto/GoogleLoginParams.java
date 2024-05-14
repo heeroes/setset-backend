@@ -25,4 +25,11 @@ public class GoogleLoginParams implements OAuthLoginParams{
         body.add("code", authorizationCode);
         return body;
     }
+
+	@Override
+	public String toString() {
+		return "GoogleLoginParams [authorizationCode=" + authorizationCode + "]";
+	}
+    
+    
 }
