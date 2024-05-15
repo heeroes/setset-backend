@@ -8,4 +8,9 @@
         value (#{name})
     </insert>
 
+    <update id="modify" parameterType="group">
+        update `group` set name=#{name}, img=#{img}
+        where id=#{id}
+    </update>
+
 </mapper>

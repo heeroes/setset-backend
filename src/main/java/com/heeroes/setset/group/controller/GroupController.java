@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,13 @@ public class GroupController {
         GroupInviteResponse response = groupService.invite(id, emails, userId);
 
         return ResponseEntity.ok(Response.success(response));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Response<GroupResponse>> modify(@PathVariable int id, @RequestBody GroupRequest groupRequest,@RequestHeader("Authorization") String tokenHeader){
+        int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
+        GroupResponse groupResponse = groupService.modify(id, groupRequest, userId);
+        return ResponseEntity.ok(Response.success(groupResponse));
     }
 
 }
