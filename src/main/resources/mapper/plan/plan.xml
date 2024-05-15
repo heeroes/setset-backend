@@ -7,25 +7,26 @@
 	<resultMap type="plan" id="plan_plandetail">
 		<id column="id" property="id"/>  
 		<result column="title" property="title"/>
-		<result column="userId" property="userId"/>
+		<result column="user_id" property="userId"/>
 		<result column="region" property="region"/>
-		<result column="startDate" property="startDate"/>
-		<result column="endDate" property="endDate"/>
+		<result column="start_date" property="startDate"/>
+		<result column="end_date" property="endDate"/>
 		
 		<!-- 리스트 형태는 collection -->
 		<collection property="planDetailList" javaType="list" ofType="planDetail">
-			<id column="id" property="id"/>
-			<result column="planId" property="planId"/>
-			<result column="attractionId" property="attractionId"/>
+			<id column="pd_id" property="id"/>
+			<result column="plan_id" property="planId"/>
+			<result column="attraction_id" property="attractionId"/>
 			<result column="day" property="day"/>
 			<result column="order" property="order"/>
 			
 		</collection>
 	</resultMap>
 	
+	<!-- {user_id}를 가지는 사용자의 전체 여행 계획 리스트 조회 -->
 	<select id="selectAll" resultMap="plan_plandetail">
-		select p.id, p.title, p.user_id as userId, p.region, p.start_date, p.end_date, 
-				pd.id, pd.plan_id, pd.attraction_id, pd.day, pd.order
+		select p.id, p.title, p.user_id, p.region, p.start_date, p.end_date, 
+				pd.id as pd_id, pd.plan_id, pd.attraction_id, pd.day, pd.order
 		from plan p
 		left join plan_detail pd
 		on p.id = pd.plan_id
@@ -33,32 +34,38 @@
 		limit #{size} offset #{offset}
 	</select>
 	
+	<!-- {id}를 가지는 계획 상세 조회 -->
 	<select id="selectById" parameterType="int" resultMap="plan_plandetail">
 		select p.id, p.title, p.user_id, p.region, p.start_date, p.end_date, 
-				pd.id, pd.plan_id, pd.attraction_id, pd.day, pd.order
+				pd.id as pd_id, pd.plan_id, pd.attraction_id, pd.day, pd.order
 		from plan p
 		left join plan_detail pd
 		on p.id = pd.plan_id
 		where p.id = #{id}
 	</select>
 	
-	<select id="totalRow" resultType="int">
+	<!-- pagination을 위한 개수 세기 -->
+	<select id="totalRow" parameterType="int" resultType="int">
 		select count(*)
 		from plan
+		where user_id=#{userId}
 	</select>
 	
+	<!-- {id}를 가지는 계획 삭제 -->
 	<delete id="deletePlan" parameterType="int">
 		delete
 		from plan
 		where id=#{id}
 	</delete>
 	
+	<!-- {id}를 가지는 여행 계획 삭제를 위한 세부 여행 계획 삭제  -->
 	<delete id="deletePlanDetail" parameterType="int">
 		delete
 		from plan_detail
 		where plan_id=#{id}
 	</delete>
 	
+	<!-- {id}를 가지는 여행 계획 수정 -->
 	<update id="updatePlan" parameterType="map">
 		update plan set
 			title = #{plan.title},
@@ -68,6 +75,7 @@
 		where id = #{id}
 	</update>
 	
+	<!-- user_id를 가지는 사용자의 새로운 여행 계획 생성 -->
 	<insert id="createPlan" parameterType="plan">
 		insert into plan (title, user_id, region, start_date, end_date)
 		values (#{title}, #{userId}, #{region}, #{startDate}, #{endDate})

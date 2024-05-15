@@ -56,7 +56,7 @@ public class PlanServiceImpl implements PlanService {
 		resp.setPlans(plans);
 		
 		//페이지네이션 정보 세팅
-		int totalRow = planMapper.totalRow();
+		int totalRow = planMapper.totalRow(userId);
 				
 		int totalPages = ((totalRow-1)/size)+1; 
 		resp.setTotalPages(totalPages);

@@ -20,21 +20,21 @@ public interface PlanService {
 	
 	/**
 	 * 여행 계획 삭제
-	 * @param id (plan_id)
+	 * @param id
 	 * @return
 	 */
 	int deletePlan(int id);
 	
 	/**
 	 * 여행 계획 전체 조회
-	 * @param userId
+	 * @param size, page, userId
 	 * @return
 	 */
 	PlanPaginationResponse selectAll(int size, int page, int userId);
 	
 	/**
 	 * 여행 계획 상세 조회
-	 * @param id (plan_id)
+	 * @param id
 	 * @return
 	 */
 	Plan selectById(int id);

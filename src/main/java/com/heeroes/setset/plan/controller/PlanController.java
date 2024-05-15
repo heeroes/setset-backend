@@ -29,6 +29,12 @@ public class PlanController {
 	private final PlanService planService;
 	private final JwtTokenProvider tokenProvider;
 	
+	/**
+	 * 여행 계획 생성
+	 * @param plan
+	 * @param tokenHeader
+	 * @return
+	 */
 	@PostMapping()
 	public ResponseEntity<?> createPlan(@RequestBody Plan plan, @RequestHeader("Authorization") String tokenHeader){
         int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
@@ -38,6 +44,12 @@ public class PlanController {
         return ResponseEntity.ok(Response.success(""));
 	}
 	
+	/**
+	 * 여행 계획 수정
+	 * @param id
+	 * @param plan
+	 * @return
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updatePlan(@PathVariable("id") int id, @RequestBody Plan plan){
 		planService.updatePlan(id, plan);
@@ -45,12 +57,24 @@ public class PlanController {
 		return ResponseEntity.ok(Response.success(""));
 	}
 	
+	/**
+	 * 여행 계획 삭제
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletePlan(@PathVariable("id") int id){
 		planService.deletePlan(id);
 		return ResponseEntity.ok(Response.success(""));
 	}
 	
+	/**
+	 * 특정 사용자의 전체 여행 계획 조회
+	 * @param size
+	 * @param page
+	 * @param tokenHeader
+	 * @return
+	 */
 	@GetMapping()
 	public ResponseEntity<?> selectAll(
 			@RequestParam(defaultValue = "5") int size,
@@ -63,6 +87,11 @@ public class PlanController {
 		return ResponseEntity.ok(Response.success(response));
 	}
 	
+	/**
+	 * 특정 여행 계획 상세 조회
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<?> selectById(@PathVariable("id") int id){
 		Plan plan = planService.selectById(id);
