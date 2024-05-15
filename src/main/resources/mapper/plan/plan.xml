@@ -24,7 +24,7 @@
 	</resultMap>
 	
 	<select id="selectAll" resultMap="plan_plandetail">
-		select p.id, p.title, p.user_id, p.region, p.start_date, p.end_date, 
+		select p.id, p.title, p.user_id as userId, p.region, p.start_date, p.end_date, 
 				pd.id, pd.plan_id, pd.attraction_id, pd.day, pd.order
 		from plan p
 		left join plan_detail pd

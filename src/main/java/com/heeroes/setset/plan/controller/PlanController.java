@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.heeroes.setset.common.Response;
 import com.heeroes.setset.plan.dto.Plan;
 import com.heeroes.setset.plan.dto.PlanPaginationResponse;
 import com.heeroes.setset.plan.model.service.PlanService;
@@ -33,22 +34,21 @@ public class PlanController {
         int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
         plan.setUserId(userId);
         planService.createPlan(plan);
-        System.out.println("data : " + plan.getTitle());
         
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(Response.success(""));
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updatePlan(@PathVariable("id") int id, @RequestBody Plan plan){
 		planService.updatePlan(id, plan);
 		
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(Response.success(""));
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletePlan(@PathVariable("id") int id){
 		planService.deletePlan(id);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(Response.success(""));
 	}
 	
 	@GetMapping()
@@ -60,13 +60,13 @@ public class PlanController {
 		int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
 		PlanPaginationResponse response= planService.selectAll(size, page, userId);
 		
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(Response.success(response));
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> selectById(@PathVariable("id") int id){
 		Plan plan = planService.selectById(id);
-		return ResponseEntity.ok(plan);
+		return ResponseEntity.ok(Response.success(plan));
 	}
 	
 }
