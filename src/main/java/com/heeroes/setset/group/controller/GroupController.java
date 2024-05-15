@@ -1,6 +1,6 @@
 package com.heeroes.setset.group.controller;
 
-import com.heeroes.setset.Response;
+import com.heeroes.setset.common.Response;
 import com.heeroes.setset.group.dto.GroupInviteResponse;
 import com.heeroes.setset.group.dto.GroupRequest;
 import com.heeroes.setset.group.dto.GroupResponse;

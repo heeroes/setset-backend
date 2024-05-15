@@ -1,4 +1,4 @@
-package com.heeroes.setset;
+package com.heeroes.setset.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

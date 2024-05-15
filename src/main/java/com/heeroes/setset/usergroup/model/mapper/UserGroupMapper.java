@@ -1,6 +1,6 @@
-package com.heeroes.setset.userGroup.model.mapper;
+package com.heeroes.setset.usergroup.model.mapper;
 
-import com.heeroes.setset.userGroup.dto.UserGroup;
+import com.heeroes.setset.usergroup.dto.UserGroup;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

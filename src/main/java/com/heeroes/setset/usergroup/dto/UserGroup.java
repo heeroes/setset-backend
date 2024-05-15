@@ -1,4 +1,4 @@
-package com.heeroes.setset.userGroup.dto;
+package com.heeroes.setset.usergroup.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
