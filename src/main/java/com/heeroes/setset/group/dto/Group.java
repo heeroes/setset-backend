@@ -1,17 +1,16 @@
-package com.heeroes.setset.user.dto;
+package com.heeroes.setset.group.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Builder
-public class User {
+public class Group {
     private int id;
-    private String email;
-    private String nickname;
-    private OAuthProvider oAuthProvider;
+    private String name;
+    private String imageUrl;
 }

@@ -13,7 +13,7 @@
 
     <insert id="insert" parameterType="user">
         insert into user(nickname, email,sns_type, sns_connect_date)
-        values(#{name}, #{email}, #{oAuthProvider}, now())
+        values(#{nickname}, #{email}, #{oAuthProvider}, now())
     </insert>
     
     <!--  refresh token 넣기 -->

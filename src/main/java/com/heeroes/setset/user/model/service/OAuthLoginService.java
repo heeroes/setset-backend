@@ -43,7 +43,7 @@ public class OAuthLoginService {
         System.out.println("닉네임 : " + oAuthInfoResponse.getNickName());
         User user = User.builder()
                 .email(oAuthInfoResponse.getEmail())
-                .name(oAuthInfoResponse.getNickName())
+                .nickname(oAuthInfoResponse.getNickName())
                 .oAuthProvider(oAuthInfoResponse.getOAuthProvider())
                 .build();
         userMapper.insert(user);
