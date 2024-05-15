@@ -26,8 +26,5 @@ public class AuthTokensGenerator {
 
     }
 
-    public String extractEmail(String accessToken){
-        return jwtTokenProvider.extractEmail(accessToken);
-    }
 
 }

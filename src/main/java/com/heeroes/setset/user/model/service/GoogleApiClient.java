@@ -2,10 +2,7 @@ package com.heeroes.setset.user.model.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.heeroes.setset.user.dto.GoogleInfoResponse;
-import com.heeroes.setset.user.dto.GoogleLoginParams;
 import com.heeroes.setset.user.dto.GoogleTokens;
-import com.heeroes.setset.user.dto.NaverInfoResponse;
-import com.heeroes.setset.user.dto.OAuthInfoResponse;
 import com.heeroes.setset.user.dto.OAuthLoginParams;
 import com.heeroes.setset.user.dto.OAuthProvider;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +50,7 @@ public class GoogleApiClient implements OAuthApiClient {
 		body.add("grant_type", GRANT_TYPE);
 		body.add("client_id", clientId);
 		body.add("client_secret", clientSecret);
-		body.add("redirect_uri", "http://localhost:80/user/login/google");
+		body.add("redirect_uri", "http://localhost:80/api/v1/user/login/google");
 
 		System.out.println("body: " + body);
 
