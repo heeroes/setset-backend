@@ -13,4 +13,9 @@
         where id=#{id}
     </update>
 
+    <delete id="deleteById" parameterType="int">
+        delete from `group`
+        where id=#{id}
+    </delete>
+
 </mapper>

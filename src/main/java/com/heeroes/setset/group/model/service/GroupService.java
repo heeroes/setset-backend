@@ -11,4 +11,6 @@ public interface GroupService {
     GroupInviteResponse invite(int id, List<String> emails, int userId);
 
     GroupResponse modify(int id, GroupRequest groupRequest, int userId);
+
+    void leaveGroup(int id, int userId);
 }

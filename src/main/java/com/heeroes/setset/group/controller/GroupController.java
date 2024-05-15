@@ -9,6 +9,7 @@ import com.heeroes.setset.user.utils.JwtTokenProvider;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -44,6 +45,13 @@ public class GroupController {
         int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
         GroupResponse groupResponse = groupService.modify(id, groupRequest, userId);
         return ResponseEntity.ok(Response.success(groupResponse));
+    }
+
+    @DeleteMapping("/{id}/user")
+    public ResponseEntity<Response<String>> leaveGroup(@PathVariable int id, @RequestHeader("Authorization") String tokenHeader){
+        int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
+        groupService.leaveGroup(id, userId);
+        return ResponseEntity.ok(Response.success(""));
     }
 
 }

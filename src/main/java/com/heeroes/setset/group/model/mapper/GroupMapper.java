@@ -8,4 +8,6 @@ public interface GroupMapper {
     int insert(Group group);
 
     void modify(Group group);
+
+    void deleteById(int id);
 }

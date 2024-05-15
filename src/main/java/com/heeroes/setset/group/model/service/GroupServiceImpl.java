@@ -74,4 +74,16 @@ public class GroupServiceImpl implements GroupService{
 
         return new GroupResponse(group.getId(), name);
     }
+
+    @Override
+    @Transactional
+    public void leaveGroup(int groupId, int userId) {
+        userGroupMapper.delete(new UserGroup(userId, groupId));
+        //그룹에 아무도 없다면 그룹 정보까지 삭제
+        int userCnt = userGroupMapper.countGroupUser(groupId);
+        System.out.println("userCnt in group: "  + userCnt);
+        if(userCnt == 0){
+            groupMapper.deleteById(groupId);
+        }
+    }
 }
