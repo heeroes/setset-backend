@@ -1,7 +1,6 @@
 package com.heeroes.setset.user.utils;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ClaimsBuilder;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,7 +8,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
-import java.security.Key;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -28,15 +26,8 @@ public class JwtTokenProvider {
     }
 
     public String generate(int userId,String subject, Date expiredAt){
-		ClaimsBuilder claims = Jwts.claims()
-				.setSubject(subject) // 토큰 제목 설정 ex) access-token, refresh-token
-				.setIssuedAt(new Date()) // 생성일 설정
-//				만료일 설정 (유효기간)
-				.setExpiration(expiredAt);
-
-		claims.add("userId", userId);
-    	
     	 return Jwts.builder()
+                 .claim("userId", userId)
                 .setSubject(subject)
                 .setExpiration(expiredAt)
                 .signWith(key, SignatureAlgorithm.HS512)
@@ -44,9 +35,11 @@ public class JwtTokenProvider {
     	
     }
 
-    public String extractEmail(String accessToken){
+    public int extractUserId(String accessToken){
         Claims claims = parseClaims(accessToken);
-        return (String) claims.get("email");
+        System.out.println("claims : " + claims);
+        System.out.println("userID:" + claims.get("userId"));
+        return (int) claims.get("userId");
     }
 
     private Claims parseClaims(String accessToken){
