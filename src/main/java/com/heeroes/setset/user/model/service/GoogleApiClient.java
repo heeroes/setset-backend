@@ -2,14 +2,7 @@ package com.heeroes.setset.user.model.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.heeroes.setset.user.dto.GoogleInfoResponse;
-<<<<<<< Updated upstream
 import com.heeroes.setset.user.dto.GoogleTokens;
-=======
-import com.heeroes.setset.user.dto.GoogleLoginParams;
-import com.heeroes.setset.user.dto.GoogleTokens;
-import com.heeroes.setset.user.dto.NaverInfoResponse;
-import com.heeroes.setset.user.dto.OAuthInfoResponse;
->>>>>>> Stashed changes
 import com.heeroes.setset.user.dto.OAuthLoginParams;
 import com.heeroes.setset.user.dto.OAuthProvider;
 import lombok.RequiredArgsConstructor;
