@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class User {
     private int id;
     private String email;
-    private String name;
+    private String nickname;
     private OAuthProvider oAuthProvider;
 }

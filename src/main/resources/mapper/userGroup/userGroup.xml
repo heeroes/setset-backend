@@ -8,4 +8,10 @@
             values (#{userId}, #{groupId})
     </insert>
 
+    <select id="isExist" parameterType="userGroup" resultType="boolean">
+        SELECT IF(COUNT(*) = 1, 1, 0)
+        FROM `user_group`
+        WHERE user_id = #{userId} and group_id = #{groupId}
+    </select>
+
 </mapper>

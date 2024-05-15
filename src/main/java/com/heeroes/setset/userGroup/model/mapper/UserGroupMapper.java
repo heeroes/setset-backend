@@ -6,4 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserGroupMapper {
     int insert(UserGroup userGroup);
+
+
+    boolean isExist(UserGroup userGroup);
 }
