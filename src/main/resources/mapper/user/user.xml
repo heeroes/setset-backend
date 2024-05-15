@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.heeroes.setset.user.model.mapper.UserMapper">
+
+    <!-- 검색 -->
+    <select id="findByEmail" parameterType="String" resultType="user">
+        select id, nickname, email
+        from user
+        where email=#{email}
+    </select>
+
+    <insert id="insert" parameterType="user">
+        insert into user(nickname, email,sns_type, sns_connect_date)
+        values(#{name}, #{email}, #{oAuthProvider}, now())
+    </insert>
+    
+    <!--  refresh token 넣기 -->
+	<update id="saveRefreshToken" parameterType="map"> 
+	update user set refresh_token=#{refreshToken}
+	where email=#{email} 
+	</update>
+    
+</mapper>
