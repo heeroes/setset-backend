@@ -6,4 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface GroupMapper {
     int insert(Group group);
+
+    void modify(Group group);
+
+    void deleteById(int id);
 }

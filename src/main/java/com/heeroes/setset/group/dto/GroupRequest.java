@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GroupRequest {
     private String name;
+    private String img;
 }

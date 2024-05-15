@@ -14,4 +14,15 @@
         WHERE user_id = #{userId} and group_id = #{groupId}
     </select>
 
+    <!-- 삭제 -->
+    <delete id="delete" parameterType="userGroup">
+        delete from `user_group`
+        where user_id=#{userId} and group_id=#{groupId}
+    </delete>
+
+    <select id="countGroupUser" parameterType="int" resultType="int">
+        SELECT count(user_id)
+        FROM `user_group`
+        WHERE group_id=#{groupId}
+    </select>
 </mapper>
