@@ -8,10 +8,10 @@ import com.heeroes.setset.plan.dto.Plan;
 public interface PlanMapper {
 	/**
 	 * 여행 계획 생성
-	 * @param param (userId, Plan)
+	 * @param plan
 	 * @return
 	 */
-	int createPlan(Map<String, Object> param);
+	int createPlan(Plan plan);
 	
 	/**
 	 * 여행 계획 수정
@@ -27,24 +27,26 @@ public interface PlanMapper {
 	 */
 	int deletePlan(int id);
 	
+	int deletePlanDetail(int id);
+	
 	/**
 	 * 여행 계획 전체 조회
 	 * @param userId
 	 * @return
 	 */
-	List<Plan> selectAll(int userId);
+	List<Plan> selectAll(Map<String, Object> param);
 	
 	/**
 	 * 여행 계획 상세 조회
-	 * @param param (userId, Plan id)
+	 * @param id
 	 * @return
 	 */
-	Plan selectById(Map<String, Object> param);
+	Plan selectById(int id);
 	
 	/**
 	 * 계획 총 개수
 	 * @param param
 	 * @return
 	 */
-	int totalRow(Map<String, Object> param);
+	int totalRow();
 }

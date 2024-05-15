@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+<mapper namespace="com.heeroes.setset.plan.model.mapper.PlanMapper">
+	<resultMap type="plan" id="plan_plandetail">
+		<id column="id" property="id"/>  
+		<result column="title" property="title"/>
+		<result column="userId" property="userId"/>
+		<result column="region" property="region"/>
+		<result column="startDate" property="startDate"/>
+		<result column="endDate" property="endDate"/>
+		
+		<!-- 리스트 형태는 collection -->
+		<collection property="planDetailList" javaType="list" ofType="planDetail">
+			<id column="id" property="id"/>
+			<result column="planId" property="planId"/>
+			<result column="attractionId" property="attractionId"/>
+			<result column="day" property="day"/>
+			<result column="order" property="order"/>
+			
+		</collection>
+	</resultMap>
+	
+	<select id="selectAll" resultMap="plan_plandetail">
+		select p.id, p.title, p.user_id, p.region, p.start_date, p.end_date, 
+				pd.id, pd.plan_id, pd.attraction_id, pd.day, pd.order
+		from plan p
+		left join plan_detail pd
+		on p.id = pd.plan_id
+		where p.user_id = #{userId}
+		limit #{size} offset #{offset}
+	</select>
+	
+	<select id="selectById" parameterType="int" resultMap="plan_plandetail">
+		select p.id, p.title, p.user_id, p.region, p.start_date, p.end_date, 
+				pd.id, pd.plan_id, pd.attraction_id, pd.day, pd.order
+		from plan p
+		left join plan_detail pd
+		on p.id = pd.plan_id
+		where p.id = #{id}
+	</select>
+	
+	<select id="totalRow" resultType="int">
+		select count(*)
+		from plan
+	</select>
+	
+	<delete id="deletePlan" parameterType="int">
+		delete
+		from plan
+		where id=#{id}
+	</delete>
+	
+	<delete id="deletePlanDetail" parameterType="int">
+		delete
+		from plan_detail
+		where plan_id=#{id}
+	</delete>
+	
+	<update id="updatePlan" parameterType="map">
+		update plan set
+			title = #{plan.title},
+			region = #{plan.region},
+			start_date = #{plan.startDate},
+			end_date = #{plan.endDate}
+		where id = #{id}
+	</update>
+	
+	<insert id="createPlan" parameterType="plan">
+		insert into plan (title, user_id, region, start_date, end_date)
+		values (#{title}, #{userId}, #{region}, #{startDate}, #{endDate})
+	</insert>
+
+</mapper>

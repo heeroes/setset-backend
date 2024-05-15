@@ -5,8 +5,11 @@ import java.util.Map;
 
 import com.heeroes.setset.attraction.dto.Attraction;
 
+import lombok.Data;
+
+@Data
 public class PlanPaginationResponse {
-	private Map<Integer, List<Plan>> plans;
+	private List<Plan> plans;
 	private int totalPages;
 	private int page;
 	private int size;

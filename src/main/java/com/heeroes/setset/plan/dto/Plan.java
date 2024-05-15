@@ -2,15 +2,17 @@ package com.heeroes.setset.plan.dto;
 
 import java.util.List;
 
+import com.heeroes.setset.plandetail.dto.PlanDetail;
+
 import lombok.Data;
 
 @Data
 public class Plan {
 	int id;
 	String title;
-	int user_id;
+	int userId;
 	String region;
-	String start_date;
-	String end_date;
+	String startDate;
+	String endDate;
 	List<PlanDetail> planDetailList;
 }
