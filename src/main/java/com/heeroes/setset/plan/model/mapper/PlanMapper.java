@@ -49,4 +49,11 @@ public interface PlanMapper {
 	 * @return
 	 */
 	int totalRow(int userId);
+	
+	/**
+	 * 여행 계획 요약 정보 피드 DB 삽입
+	 * @param param
+	 * @return
+	 */
+	int insertPlanSummary(Map<String, Object> param);
 }

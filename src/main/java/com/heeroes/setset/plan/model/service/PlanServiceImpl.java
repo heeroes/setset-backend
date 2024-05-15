@@ -1,11 +1,20 @@
 package com.heeroes.setset.plan.model.service;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import com.heeroes.setset.attraction.model.mapper.AttractionMapper;
 import com.heeroes.setset.plan.dto.Plan;
 import com.heeroes.setset.plan.dto.PlanPaginationResponse;
 import com.heeroes.setset.plan.model.mapper.PlanMapper;
@@ -16,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class PlanServiceImpl implements PlanService {
 	private final PlanMapper planMapper;
+	private final AttractionMapper attractionMapper;
 	
 	@Override
 	public int createPlan(Plan plan) {
@@ -70,6 +80,47 @@ public class PlanServiceImpl implements PlanService {
 	public Plan selectById(int id) {
 		// TODO Auto-generated method stub
 		return planMapper.selectById(id);
+	}
+	
+	@Override
+	public int summaryPlan(int id, int groupId, int userId) throws JSONException {
+		Plan plan = planMapper.selectById(id);
+		
+		System.out.println("time: " + plan.getStartDate());
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+	    LocalDate startDate = LocalDate.parse(plan.getStartDate(), formatter);
+	    LocalDate endDate = LocalDate.parse(plan.getEndDate(), formatter);
+		long days = DAYS.between(startDate, endDate) + 1;
+		
+		JSONObject summary = new JSONObject();
+		summary.put("region", plan.getRegion());
+		summary.put("start_date", plan.getStartDate());
+		if(days < 2)
+			summary.put("days", "당일치기");
+		else
+			summary.put("days", (days-1)+"박 "+(days)+"일");
+		
+		int size = plan.getPlanDetailList().size();
+		summary.put("total_attraction", size);
+		
+		Set<Integer> contentTypes = new HashSet();
+		for (int i = 0; i < size; i++) {
+			contentTypes.add(attractionMapper.searchById
+					(plan.getPlanDetailList().get(i).getAttractionId())
+					.getContentTypeId());	
+		}
+		
+		summary.put("contentTypes", contentTypes);
+				
+		Map<String, Object> param = new HashMap<>();
+		param.put("content", summary.toString());
+		param.put("groupId", groupId);
+		param.put("userId", userId);
+		
+		System.out.println("input date : " + param);
+		
+		return planMapper.insertPlanSummary(param);
 	}
 
 }

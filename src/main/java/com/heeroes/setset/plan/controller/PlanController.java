@@ -1,5 +1,7 @@
 package com.heeroes.setset.plan.controller;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +30,25 @@ import lombok.RequiredArgsConstructor;
 public class PlanController {
 	private final PlanService planService;
 	private final JwtTokenProvider tokenProvider;
+	@Value("${plan.share.link}")
+	private String planShareLink;
+	
+	@GetMapping("/share/summary")
+	public ResponseEntity<?> summaryPlan(
+			@RequestParam("id") int id,
+			@RequestParam("groupId") int groupId,
+			@RequestHeader("Authorization") String tokenHeader) throws JSONException{
+		int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
+		
+		planService.summaryPlan(id, groupId, userId);
+		
+		return ResponseEntity.ok(Response.success(""));
+	}
+	
+	@GetMapping("/share/{id}")
+	public ResponseEntity<?> getShareLink(@PathVariable("id") int id){
+		return ResponseEntity.ok(Response.success(planShareLink+'/'+id));
+	}
 	
 	/**
 	 * 여행 계획 생성

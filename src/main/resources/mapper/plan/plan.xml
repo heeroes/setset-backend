@@ -80,5 +80,10 @@
 		insert into plan (title, user_id, region, start_date, end_date)
 		values (#{title}, #{userId}, #{region}, #{startDate}, #{endDate})
 	</insert>
+	
+	<insert id="insertPlanSummary" parameterType="map">
+		insert into article (content, created_at, group_id, user_id)
+		values (#{content}, now(), #{groupId}, #{userId})
+	</insert>
 
 </mapper>

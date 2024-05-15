@@ -1,5 +1,7 @@
 package com.heeroes.setset.plan.model.service;
 
+import org.springframework.boot.configurationprocessor.json.JSONException;
+
 import com.heeroes.setset.plan.dto.Plan;
 import com.heeroes.setset.plan.dto.PlanPaginationResponse;
 
@@ -38,5 +40,7 @@ public interface PlanService {
 	 * @return
 	 */
 	Plan selectById(int id);
+
+	int summaryPlan(int id, int groupId, int userId) throws JSONException;
 
 }
