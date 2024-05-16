@@ -102,5 +102,12 @@
 		insert into article (content, created_at, group_id, user_id)
 		values (#{content}, now(), #{groupId}, #{userId})
 	</insert>
+	
+	<!-- id를 가지는 여행 계획 소유자 userId 조회 -->
+	<select id="selectUserIdByPlanId" parameterType="int" resultType="int">
+		select user_id
+		from plan
+		where id=#{id}
+	</select>
 
 </mapper>

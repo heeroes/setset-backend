@@ -46,7 +46,10 @@ public class PlanController {
 	}
 	
 	@GetMapping("/share/{id}")
-	public ResponseEntity<?> getShareLink(@PathVariable("id") int id){
+	public ResponseEntity<?> getShareLink(@PathVariable("id") int id,
+			@RequestHeader("Authorization") String tokenHeader){
+		int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
+		planService.checkUserMatch(id, userId);
 		return ResponseEntity.ok(Response.success(planShareLink+'/'+id));
 	}
 	
@@ -72,8 +75,9 @@ public class PlanController {
 	 * @return
 	 */
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updatePlan(@PathVariable("id") int id, @RequestBody Plan plan){
-		planService.updatePlan(id, plan);
+	public ResponseEntity<?> updatePlan(@PathVariable("id") int id, @RequestBody Plan plan, @RequestHeader("Authorization") String tokenHeader){
+		int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
+		planService.updatePlan(id, plan, userId);
 		
 		return ResponseEntity.ok(Response.success(""));
 	}
@@ -84,8 +88,9 @@ public class PlanController {
 	 * @return
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deletePlan(@PathVariable("id") int id){
-		planService.deletePlan(id);
+	public ResponseEntity<?> deletePlan(@PathVariable("id") int id, @RequestHeader("Authorization") String tokenHeader){
+		int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
+		planService.deletePlan(id, userId);
 		return ResponseEntity.ok(Response.success(""));
 	}
 	

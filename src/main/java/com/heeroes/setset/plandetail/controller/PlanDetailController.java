@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.heeroes.setset.common.Response;
 import com.heeroes.setset.plandetail.dto.PlanDetail;
 import com.heeroes.setset.plandetail.model.service.PlanDetailService;
+import com.heeroes.setset.user.utils.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin("*")
 public class PlanDetailController {
 	private final PlanDetailService planDetailService;
+	private final JwtTokenProvider tokenProvider;
 	
 	/**
 	 * 여행 계획에 여행지 추가
@@ -33,9 +37,10 @@ public class PlanDetailController {
 	 * @return
 	 */
 	@PostMapping("")
-	public ResponseEntity<?> insertPlanDetail(@RequestBody PlanDetail planDetail) {
+	public ResponseEntity<?> insertPlanDetail(@RequestBody PlanDetail planDetail, @RequestHeader("Authorization") String tokenHeader) {
 		//TODO: process POST request
-		planDetailService.insertPlanDetail(planDetail);
+		int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
+		planDetailService.insertPlanDetail(planDetail, userId);
 		return ResponseEntity.ok(Response.success(""));
 	}
 	
@@ -45,11 +50,13 @@ public class PlanDetailController {
 	 * @param planDetail
 	 * @return
 	 */
-	@PutMapping("{id}")
-	public ResponseEntity<?> updatePlanDetail(@PathVariable("id") int id,
-			@RequestBody PlanDetail planDetail) {
+	@PutMapping("")
+	public ResponseEntity<?> updatePlanDetail(@RequestParam("id") int id,
+			@RequestBody PlanDetail planDetail, 
+			@RequestHeader("Authorization") String tokenHeader) {
 		//TODO: process POST request
-		planDetailService.updatePlanDetail(id, planDetail);
+		int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
+		planDetailService.updatePlanDetail(id, planDetail, userId);
 		return ResponseEntity.ok(Response.success(""));
 	}
 	
@@ -58,10 +65,14 @@ public class PlanDetailController {
 	 * @param planDetailList
 	 * @return
 	 */
-	@PutMapping("")
-	public ResponseEntity<?> updatePlanDetailList(@RequestBody Map<String,List<PlanDetail>> planDetailList) {
+	@PutMapping("{planId}")
+	public ResponseEntity<?> updatePlanDetailList(
+			@PathVariable("planId") int planId,
+			@RequestBody Map<String,List<PlanDetail>> planDetailList,
+			@RequestHeader("Authorization") String tokenHeader) {
 		//TODO: process POST request
-		planDetailService.updatePlanDetailList(planDetailList);
+		int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
+		planDetailService.updatePlanDetailList(planId, planDetailList, userId);
 		return ResponseEntity.ok(Response.success(""));
 	}
 	
@@ -71,9 +82,11 @@ public class PlanDetailController {
 	 * @return
 	 */
 	@DeleteMapping("{id}")
-	public ResponseEntity<?> deletePlanDetail(@PathVariable("id") int id) {
+	public ResponseEntity<?> deletePlanDetail(@PathVariable("id") int id,
+			@RequestHeader("Authorization") String tokenHeader) {
 		//TODO: process POST request
-		planDetailService.deletePlanDetail(id);
+		int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
+		planDetailService.deletePlanDetail(id, userId);
 		return ResponseEntity.ok(Response.success(""));
 	}
 	

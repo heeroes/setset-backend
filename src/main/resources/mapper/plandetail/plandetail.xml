@@ -60,5 +60,14 @@
 			</otherwise>
 		</choose>
 	</update>
+	
+	<!-- planDetail id로 user id 조회 -->
+	<select id="selectuUserIdByPlanDetil" parameterType="int" resultType="int">
+		select user_id
+		from plan
+		join plan_detail pd
+		on plan.id = pd.plan_id
+		where pd.id=#{id}
+	</select>
 
 </mapper>

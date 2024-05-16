@@ -68,4 +68,11 @@ public interface PlanMapper {
 	 * @return
 	 */
 	int insertPlanSummary(Map<String, Object> param);
+	
+	/**
+	 * 여행 계획 소유자의 user_id 조회
+	 * @param id
+	 * @return
+	 */
+	int selectUserIdByPlanId(int id);
 }

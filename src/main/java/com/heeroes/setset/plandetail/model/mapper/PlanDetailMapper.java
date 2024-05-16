@@ -39,5 +39,11 @@ public interface PlanDetailMapper {
 	 * @return
 	 */
 	int updatePopularity(Map<String, Object> param);
-
+	
+	/**
+	 * planDetail id 이용 user id 얻어오기
+	 * @param id
+	 * @return
+	 */
+	int selectuUserIdByPlanDetil(int id);
 }

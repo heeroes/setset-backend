@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,6 @@ import com.heeroes.setset.attraction.model.mapper.AttractionMapper;
 import com.heeroes.setset.plan.dto.Plan;
 import com.heeroes.setset.plan.dto.PlanPaginationResponse;
 import com.heeroes.setset.plan.model.mapper.PlanMapper;
-import com.heeroes.setset.plandetail.model.mapper.PlanDetailMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,13 +29,24 @@ public class PlanServiceImpl implements PlanService {
 	private final AttractionMapper attractionMapper;
 	
 	@Override
+	public boolean checkUserMatch(int planId, int userId) {
+		int owner = planMapper.selectUserIdByPlanId(planId);
+		System.out.println(owner + " : " + userId);
+		
+		if(owner != userId)
+			throw new RuntimeException("권한이 없습니다.");
+		return true;
+	}
+	
+	@Override
 	public int createPlan(Plan plan) {
 		// TODO Auto-generated method stub
 		return planMapper.createPlan(plan);
 	}
 
 	@Override
-	public int updatePlan(int id, Plan plan) {
+	public int updatePlan(int id, Plan plan, int userId) {
+		checkUserMatch(id, userId);
 		Map<String, Object> param = new HashMap<>();
 		param.put("id", id);
 		param.put("plan", plan);
@@ -44,8 +55,9 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
-	public int deletePlan(int id) {
+	public int deletePlan(int id, int userId) {
 		// TODO Auto-generated method stub
+		checkUserMatch(id, userId);
 		planMapper.updatePopularityByPlan(id);
 		planMapper.deletePlanDetail(id);
 		return planMapper.deletePlan(id);
@@ -86,6 +98,8 @@ public class PlanServiceImpl implements PlanService {
 	
 	@Override
 	public int summaryPlan(int id, int groupId, int userId) throws JSONException {
+		checkUserMatch(id, userId);
+		
 		Plan plan = planMapper.selectById(id);
 		long days = getDays(plan);
 		
