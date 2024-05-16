@@ -9,4 +9,8 @@ public interface UserGroupMapper {
 
 
     boolean isExist(UserGroup userGroup);
+
+    void delete(UserGroup userGroup);
+
+    int countGroupUser(int groupId);
 }

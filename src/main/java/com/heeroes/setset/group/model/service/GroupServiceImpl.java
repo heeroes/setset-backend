@@ -27,6 +27,7 @@ public class GroupServiceImpl implements GroupService{
     public GroupResponse create(GroupRequest groupRequest, int userId) {
         String name = groupRequest.getName();
         Group group = Group.builder()
+                .img(groupRequest.getImg())
                 .name(name)
                 .build();
         // 1. 그룹 db에 insert
@@ -55,5 +56,34 @@ public class GroupServiceImpl implements GroupService{
             users.add(user);
         }
         return new GroupInviteResponse(groupId, users);
+    }
+
+    @Override
+    public GroupResponse modify(int id, GroupRequest groupRequest, int userId) {
+        String name = groupRequest.getName();
+        Group group = Group.builder()
+                .id(id)
+                .name(name)
+                .img(groupRequest.getImg())
+                .build();
+        // 1. 해당 유저가 그룹에 존재하는지
+        if(!userGroupMapper.isExist(new UserGroup(userId, group.getId()))) throw new RuntimeException("그룹 수정은 해당 그룹원만 가능합니다.");
+        // 2. 그룹 db에 modify
+        groupMapper.modify(group);
+        System.out.println("groupName : " + group.getName());
+
+        return new GroupResponse(group.getId(), name);
+    }
+
+    @Override
+    @Transactional
+    public void leaveGroup(int groupId, int userId) {
+        userGroupMapper.delete(new UserGroup(userId, groupId));
+        //그룹에 아무도 없다면 그룹 정보까지 삭제
+        int userCnt = userGroupMapper.countGroupUser(groupId);
+        System.out.println("userCnt in group: "  + userCnt);
+        if(userCnt == 0){
+            groupMapper.deleteById(groupId);
+        }
     }
 }

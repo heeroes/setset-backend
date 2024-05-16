@@ -9,4 +9,8 @@ public interface GroupService {
     GroupResponse create(GroupRequest groupRequest, int userId);
 
     GroupInviteResponse invite(int id, List<String> emails, int userId);
+
+    GroupResponse modify(int id, GroupRequest groupRequest, int userId);
+
+    void leaveGroup(int id, int userId);
 }
