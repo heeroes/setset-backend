@@ -4,6 +4,7 @@ import com.heeroes.setset.article.dto.Article;
 import com.heeroes.setset.article.model.mapper.ArticleMapper;
 import com.heeroes.setset.usergroup.dto.UserGroup;
 import com.heeroes.setset.usergroup.model.mapper.UserGroupMapper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,5 +37,14 @@ public class ArticleServiceImpl implements ArticleService{
         if(finded.getUserId() != article.getUserId())
             throw new RuntimeException("해당 게시글 작성자만 수정할 수 있습니다.");
         articleMapper.modify(article);
+    }
+
+    @Override
+    public List<Article> getFeed(int groupId, int userId) {
+        // 해당 그룹원만 조회 가능
+        if(!userGroupMapper.isExist(new UserGroup(userId, groupId)))
+            throw new RuntimeException("해당 그룹원만 피드를 조회할 수 있습니다!");
+        return articleMapper.getFeed(groupId);
+
     }
 }
