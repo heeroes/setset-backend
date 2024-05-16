@@ -4,8 +4,10 @@ import com.heeroes.setset.article.dto.Article;
 import com.heeroes.setset.article.model.service.ArticleService;
 import com.heeroes.setset.common.Response;
 import com.heeroes.setset.user.utils.JwtTokenProvider;
+import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,28 +17,35 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/group")
 @RequiredArgsConstructor
+@Slf4j
 public class ArticleController {
     private final ArticleService articleService;
     private final JwtTokenProvider jwtTokenProvider;
 
     /**
-     * 그룹 내 게시글 작성
+     *
      * @param groupId
+     * @param attachedFile : 첨부파일
      * @param article
      * @param tokenHeader
      * @return
+     * @throws IOException
      */
     @PostMapping("/{groupId}/article")
-    public ResponseEntity<Response<String>> create(@PathVariable int  groupId, @RequestBody Article article, @RequestHeader("Authorization") String tokenHeader){
+    public ResponseEntity<Response<String>> create(@PathVariable int groupId, @RequestPart List<MultipartFile> attachedFile, @RequestPart Article article, @RequestHeader("Authorization") String tokenHeader)
+            throws IOException {
         int userId = jwtTokenProvider.extractUserId(tokenHeader.substring(7));
         article.setGroupId(groupId);
         article.setUserId(userId);
-        articleService.create(article);
+        log.debug("conroller 진입");
+        articleService.create(article, attachedFile);
         return ResponseEntity.ok(Response.success("등록 성공!"));
     }
 

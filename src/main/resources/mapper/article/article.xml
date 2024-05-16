@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.heeroes.setset.article.model.mapper.ArticleMapper">
-    <insert id="create" parameterType="article">
+    <insert id="create" parameterType="article" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into `article` (content, created_at, group_id, user_id)
             value (#{content}, now(), #{groupId}, #{userId})
     </insert>
