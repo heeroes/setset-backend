@@ -6,6 +6,7 @@ import com.heeroes.setset.common.Response;
 import com.heeroes.setset.user.utils.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,5 +28,12 @@ public class ArticleController {
         article.setUserId(userId);
         articleService.create(article);
         return ResponseEntity.ok(Response.success("등록 성공!"));
+    }
+
+    @DeleteMapping("/{groupId}/article/{id}")
+    public ResponseEntity<Response<String>> delete(@PathVariable int groupId, @PathVariable int id,  @RequestHeader("Authorization") String tokenHeader){
+        int userId = jwtTokenProvider.extractUserId(tokenHeader.substring(7));
+        articleService.delete(groupId,id,userId);
+        return ResponseEntity.ok(Response.success("삭제 성공"));
     }
 }

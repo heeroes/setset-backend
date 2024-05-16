@@ -7,6 +7,14 @@
         insert into `article` (content, created_at, group_id, user_id)
             value (#{content}, now(), #{groupId}, #{userId})
     </insert>
-
+    <select id="findById" parameterType="int" resultType="article">
+        select id, content, created_at, group_id, user_id
+        from article
+        where id=#{id}
+    </select>
+    <delete id="deleteById" parameterType="int">
+        delete from article
+        where id=#{id}
+    </delete>
 
 </mapper>

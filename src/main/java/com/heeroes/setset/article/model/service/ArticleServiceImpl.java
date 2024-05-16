@@ -19,4 +19,13 @@ public class ArticleServiceImpl implements ArticleService{
         articleMapper.create(article);
         System.out.println("article: " + article);
     }
+
+    @Override
+    public void delete(int groupId, int id, int userId) {
+        //게시글을 작성한 사람이 아니면 삭제 불가
+        Article article = articleMapper.findById(id);
+        if(article.getUserId() != userId)
+            throw new RuntimeException("해당 게시글 작성자만 삭제할 수 있습니다!");
+        articleMapper.deleteById(id);
+    }
 }
