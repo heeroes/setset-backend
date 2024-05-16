@@ -1,12 +1,14 @@
 package com.heeroes.setset.user.utils;
 
 import io.jsonwebtoken.Claims;
+
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+
 
 import java.util.Date;
 
@@ -28,6 +30,7 @@ public class JwtTokenProvider {
     public String generate(int userId,String subject, Date expiredAt){
     	 return Jwts.builder()
                  .claim("userId", userId)
+
                 .setSubject(subject)
                 .setExpiration(expiredAt)
                 .signWith(key, SignatureAlgorithm.HS512)
@@ -35,11 +38,13 @@ public class JwtTokenProvider {
     	
     }
 
+
     public int extractUserId(String accessToken){
         Claims claims = parseClaims(accessToken);
         System.out.println("claims : " + claims);
         System.out.println("userID:" + claims.get("userId"));
         return (int) claims.get("userId");
+
     }
 
     private Claims parseClaims(String accessToken){

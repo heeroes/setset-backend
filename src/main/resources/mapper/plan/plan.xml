@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+<mapper namespace="com.heeroes.setset.plan.model.mapper.PlanMapper">
+	<resultMap type="plan" id="plan_plandetail">
+		<id column="id" property="id"/>  
+		<result column="title" property="title"/>
+		<result column="user_id" property="userId"/>
+		<result column="region" property="region"/>
+		<result column="start_date" property="startDate"/>
+		<result column="end_date" property="endDate"/>
+		
+		<!-- 리스트 형태는 collection -->
+		<collection property="planDetailList" javaType="list" ofType="planDetail">
+			<id column="pd_id" property="id"/>
+			<result column="plan_id" property="planId"/>
+			<result column="attraction_id" property="attractionId"/>
+			<result column="day" property="day"/>
+			<result column="order" property="order"/>
+			
+		</collection>
+	</resultMap>
+	
+	<!-- {user_id}를 가지는 사용자의 전체 여행 계획 리스트 조회 -->
+	<select id="selectAll" resultMap="plan_plandetail">
+		select p.id, p.title, p.user_id, p.region, p.start_date, p.end_date, 
+				pd.id as pd_id, pd.plan_id, pd.attraction_id, pd.day, pd.order
+		from plan p
+		left join plan_detail pd
+		on p.id = pd.plan_id
+		where p.user_id = #{userId}
+		order by p.id, pd.day, pd.order
+		limit #{size} offset #{offset}
+	</select>
+	
+	<!-- {id}를 가지는 계획 상세 조회 -->
+	<select id="selectById" parameterType="int" resultMap="plan_plandetail">
+		select p.id, p.title, p.user_id, p.region, p.start_date, p.end_date, 
+				pd.id as pd_id, pd.plan_id, pd.attraction_id, pd.day, pd.order
+		from plan p
+		left join plan_detail pd
+		on p.id = pd.plan_id
+		where p.id = #{id}
+		order by pd.day, pd.order
+	</select>
+	
+	<!-- pagination을 위한 개수 세기 -->
+	<select id="totalRow" parameterType="int" resultType="int">
+		select count(*)
+		from plan
+		where user_id=#{userId}
+	</select>
+	
+	<!-- {id}를 가지는 계획 삭제 -->
+	<delete id="deletePlan" parameterType="int">
+		delete
+		from plan
+		where id=#{id}
+	</delete>
+	
+	<!-- {id}를 가지는 여행 계획 삭제를 위한 세부 여행 계획 삭제  -->
+	<delete id="deletePlanDetail" parameterType="int">
+		delete
+		from plan_detail
+		where plan_id=#{id}
+	</delete>
+	
+	<!-- {id} plan에 포함된 삭제되는 여행지들의 popularity 감소 -->
+	<update id="updatePopularityByPlan" parameterType="int">
+		update 
+		(plan left join plan_detail pd
+		on plan.id = pd.plan_id 
+		join attraction att
+		on pd.attraction_id = att.id
+		)
+		set
+		att.popularity = att.popularity-1
+		where pd.plan_id = #{id};
+	</update>
+	
+	
+	<!-- {id}를 가지는 여행 계획 수정 -->
+	<update id="updatePlan" parameterType="map">
+		update plan set
+			title = #{plan.title},
+			region = #{plan.region},
+			start_date = #{plan.startDate},
+			end_date = #{plan.endDate}
+		where id = #{id}
+	</update>
+	
+	<!-- user_id를 가지는 사용자의 새로운 여행 계획 생성 -->
+	<insert id="createPlan" parameterType="plan">
+		insert into plan (title, user_id, region, start_date, end_date)
+		values (#{title}, #{userId}, #{region}, #{startDate}, #{endDate})
+	</insert>
+	
+	<!-- 여행 계획 요약 정보 삽입 -->
+	<insert id="insertPlanSummary" parameterType="map">
+		insert into article (content, created_at, group_id, user_id)
+		values (#{content}, now(), #{groupId}, #{userId})
+	</insert>
+	
+	<!-- id를 가지는 여행 계획 소유자 userId 조회 -->
+	<select id="selectUserIdByPlanId" parameterType="int" resultType="int">
+		select user_id
+		from plan
+		where id=#{id}
+	</select>
+
+</mapper>

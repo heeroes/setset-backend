@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+<mapper namespace="com.heeroes.setset.plandetail.model.mapper.PlanDetailMapper">
+	
+	<!-- {id}를 가지는 여행 계획 삭제를 위한 세부 여행 계획 삭제  -->
+	<delete id="deletePlanDetail" parameterType="int">
+		delete
+		from plan_detail
+		where id=#{id}
+	</delete>
+	
+	<!-- {id}를 가지는 상세 계획 수정 -->
+	<update id="updatePlanDetail" parameterType="map">
+		update plan_detail set
+			`order` = #{planDetail.order},
+			day = #{planDetail.day}
+		where id = #{id}
+	</update>
+	
+	<!-- 여러 상세 계획 한번에 수정 -->
+	<update id="updatePlanDetailList" parameterType="map">
+		update plan_detail
+		set `order` = CASE
+			        <foreach collection="pdList" item="pd">
+			            when id=#{pd.id} then #{pd.order}
+			        </foreach>
+			     	end,
+	        day = CASE
+		        	<foreach collection="pdList" item="pd">
+		            	when id=#{pd.id} then #{pd.day}
+		        	</foreach>
+		        	end
+	    where plan_id = #{planId}
+	</update>
+	
+	<!-- 특정 여행 계획에 여행지 추가 -->
+	<insert id="insertPlanDetail" parameterType="planDetail">
+		insert into plan_detail (plan_id, attraction_id, `order`, day)
+		values (#{planId}, #{attractionId}, #{order}, #{day})
+	</insert>
+	
+	<!-- 계획 변경 시 여행지 popularity 증감  -->
+	<update id="updatePopularity" parameterType="map">
+		update 
+		(plan_detail pd
+		join attraction
+		on attraction.id=pd.attraction_id) 
+		set
+		<choose>
+			<when test="isInsert == false">
+				popularity = popularity - 1
+				where pd.id = #{id}
+			</when>
+			<otherwise>
+				popularity = popularity + 1
+				where attraction.id=#{id}
+			</otherwise>
+		</choose>
+	</update>
+	
+	<!-- planDetail id로 user id 조회 -->
+	<select id="selectuUserIdByPlanDetil" parameterType="int" resultType="int">
+		select user_id
+		from plan
+		join plan_detail pd
+		on plan.id = pd.plan_id
+		where pd.id=#{id}
+	</select>
+
+</mapper>

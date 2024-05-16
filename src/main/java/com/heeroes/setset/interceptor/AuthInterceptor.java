@@ -23,6 +23,11 @@ public class AuthInterceptor implements HandlerInterceptor{
 		//단순 조회 요청과 preflight 요청인 경우, true 로 넘김
 		String method = request.getMethod();
 		log.debug("AuthInterceptor()의 preHandle실행 method:{}", method);
+		
+		// 공유 시, 상세 여행 계획 페이지 접근 가능하도록
+		if(request.getRequestURI().contains("plan/") && method.equals("GET"))
+			return true;
+		
 //		if(method.equals("GET") || method.equals("OPTIONS")) return true;
 		
 		String tokenHeader = request.getHeader("Authorization");	//Header에서 토큰 정보 추출
