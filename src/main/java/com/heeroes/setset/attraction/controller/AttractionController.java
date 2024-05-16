@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.heeroes.setset.attraction.dto.Attraction;
 import com.heeroes.setset.attraction.dto.AttractionPaginationResponse;
 import com.heeroes.setset.attraction.model.service.AttractionService;
+import com.heeroes.setset.common.Response;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +34,7 @@ public class AttractionController {
 	 * @param keyword : 검색 키워드
 	 * @return
 	 */
-	@GetMapping("search")
+	@GetMapping("/search")
 	public ResponseEntity<?> searchByKeyword(
 			@RequestParam(defaultValue = "5") int size,
 			@RequestParam(defaultValue = "1") int page,
@@ -41,7 +42,7 @@ public class AttractionController {
 			@RequestParam(required = true) String keyword
 	){
 		AttractionPaginationResponse response = attractionService.searchByKeyword(size, page, contentTypeId,keyword);
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(Response.success(response));
 	}
 	
 	/**
@@ -50,13 +51,13 @@ public class AttractionController {
 	 * @param id : 여행지 id
 	 * @return
 	 */
-	@GetMapping("search/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> searchById(@PathVariable("id")int id){
 		Attraction attraction = attractionService.searchById(id);
 		
 		if(attraction == null) return ResponseEntity.notFound().build();
 		
-		return ResponseEntity.ok(attraction);
+		return ResponseEntity.ok(Response.success(attraction));
 	}
 	
 	/**
@@ -66,6 +67,6 @@ public class AttractionController {
 	@GetMapping("/rank")
 	public ResponseEntity<?> getPopularityRank(){
 		List<Attraction> attrationList = attractionService.getPopularityRank();
-		return ResponseEntity.ok(attrationList);
+		return ResponseEntity.ok(Response.success(attrationList));
 	}
 }

@@ -52,6 +52,7 @@ public class GoogleApiClient implements OAuthApiClient {
 		body.add("client_secret", clientSecret);
 		body.add("redirect_uri", "http://localhost:80/api/v1/user/login/google");
 
+
 		System.out.println("body: " + body);
 
 		HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
