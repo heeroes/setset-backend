@@ -10,4 +10,22 @@
             ( #{item.imageKey}, #{item.originalName}, #{item.articleId} )
         </foreach>
     </insert>
+
+    <select id="findByArticleId" parameterType="int" resultType="attachedFile">
+        select id, image_key, original_name, article_id
+        from attached_file
+        where article_id=#{articleId}
+    </select>
+
+    <!-- 선택된 게시글 삭제하기 -->
+    <delete id="deleteAllById" parameterType="java.util.List">
+        DELETE FROM attached_file
+            <where>
+                <foreach collection="list" item="item" separator="OR">
+                    (id=#{item.id})
+                </foreach>
+
+            </where>
+
+    </delete>
 </mapper>

@@ -32,5 +32,15 @@ public class AttachedFileServiceImpl implements AttachedFileService{
         attachedFileMapper.insertAttachedFileList(uploadFileList);
     }
 
+    @Override
+    public void deleteAllFileByArticleId(int articleId) {
+        List<AttachedFile> attachedFileList = attachedFileMapper.findByArticleId(articleId);
+        System.out.println("attachFileList:" + attachedFileList);
+        for(AttachedFile attachedFile : attachedFileList){
+            s3Util.deleteImageFromS3(attachedFile.getImageKey());
+        }
+        attachedFileMapper.deleteAllById(attachedFileList);
+    }
+
 
 }

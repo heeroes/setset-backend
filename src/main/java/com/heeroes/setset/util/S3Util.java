@@ -39,7 +39,12 @@ public class S3Util {
                 .imageKey(key)
                 .originalName(file.getOriginalFilename())
                 .build();
+    }
 
+    @Transactional
+    public void deleteImageFromS3(String imageAddress){
+        System.out.println("delete from S3: " + imageAddress);
+        s3Operations.deleteObject(BUCKET,imageAddress);
     }
 
     /**

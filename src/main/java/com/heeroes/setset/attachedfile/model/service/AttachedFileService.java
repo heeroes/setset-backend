@@ -6,4 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface AttachedFileService {
     void uploadFiles(int id, List<MultipartFile> attachedFiles) throws IOException;
+
+    void deleteAllFileByArticleId(int articleId);
 }

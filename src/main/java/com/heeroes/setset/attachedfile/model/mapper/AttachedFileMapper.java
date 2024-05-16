@@ -6,5 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface AttachedFileMapper {
-    int insertAttachedFileList(List<AttachedFile> attachedFileList);
+    int insertAttachedFileList(List<AttachedFile> attachedFiles);
+    List<AttachedFile> findByArticleId(int articleId);
+    void deleteAllById(List<AttachedFile> attachedFiles);
 }
