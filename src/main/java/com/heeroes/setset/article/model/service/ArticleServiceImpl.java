@@ -28,4 +28,13 @@ public class ArticleServiceImpl implements ArticleService{
             throw new RuntimeException("해당 게시글 작성자만 삭제할 수 있습니다!");
         articleMapper.deleteById(id);
     }
+
+    @Override
+    public void modify(Article article) {
+        // 게시글 작성한 사람만 수정 가능
+        Article finded = articleMapper.findById(article.getId());
+        if(finded.getUserId() != article.getUserId())
+            throw new RuntimeException("해당 게시글 작성자만 수정할 수 있습니다.");
+        articleMapper.modify(article);
+    }
 }

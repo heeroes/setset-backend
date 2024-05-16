@@ -16,5 +16,8 @@
         delete from article
         where id=#{id}
     </delete>
-
+    <update id="modify" parameterType="article">
+        update article set content=#{content}
+        where id=#{id}
+    </update>
 </mapper>

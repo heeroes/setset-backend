@@ -6,4 +6,6 @@ public interface ArticleService {
     void create(Article article);
 
     void delete(int groupId, int id, int userId);
+
+    void modify(Article article);
 }

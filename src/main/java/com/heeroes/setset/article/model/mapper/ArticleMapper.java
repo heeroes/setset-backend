@@ -8,4 +8,6 @@ public interface ArticleMapper {
     void create(Article article);
     Article findById(int id);
     void deleteById(int id);
+
+    void modify(Article article);
 }
