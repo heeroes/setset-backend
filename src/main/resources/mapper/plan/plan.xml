@@ -31,6 +31,7 @@
 		left join plan_detail pd
 		on p.id = pd.plan_id
 		where p.user_id = #{userId}
+		order by p.id, pd.day, pd.order
 		limit #{size} offset #{offset}
 	</select>
 	
@@ -42,6 +43,7 @@
 		left join plan_detail pd
 		on p.id = pd.plan_id
 		where p.id = #{id}
+		order by pd.day, pd.order
 	</select>
 	
 	<!-- pagination을 위한 개수 세기 -->
@@ -65,6 +67,20 @@
 		where plan_id=#{id}
 	</delete>
 	
+	<!-- {id} plan에 포함된 삭제되는 여행지들의 popularity 감소 -->
+	<update id="updatePopularityByPlan" parameterType="int">
+		update 
+		(plan left join plan_detail pd
+		on plan.id = pd.plan_id 
+		join attraction att
+		on pd.attraction_id = att.id
+		)
+		set
+		att.popularity = att.popularity-1
+		where pd.plan_id = #{id};
+	</update>
+	
+	
 	<!-- {id}를 가지는 여행 계획 수정 -->
 	<update id="updatePlan" parameterType="map">
 		update plan set
@@ -81,6 +97,7 @@
 		values (#{title}, #{userId}, #{region}, #{startDate}, #{endDate})
 	</insert>
 	
+	<!-- 여행 계획 요약 정보 삽입 -->
 	<insert id="insertPlanSummary" parameterType="map">
 		insert into article (content, created_at, group_id, user_id)
 		values (#{content}, now(), #{groupId}, #{userId})

@@ -18,6 +18,7 @@ import com.heeroes.setset.attraction.model.mapper.AttractionMapper;
 import com.heeroes.setset.plan.dto.Plan;
 import com.heeroes.setset.plan.dto.PlanPaginationResponse;
 import com.heeroes.setset.plan.model.mapper.PlanMapper;
+import com.heeroes.setset.plandetail.model.mapper.PlanDetailMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,6 +46,7 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public int deletePlan(int id) {
 		// TODO Auto-generated method stub
+		planMapper.updatePopularityByPlan(id);
 		planMapper.deletePlanDetail(id);
 		return planMapper.deletePlan(id);
 	}
@@ -85,13 +87,7 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public int summaryPlan(int id, int groupId, int userId) throws JSONException {
 		Plan plan = planMapper.selectById(id);
-		
-		System.out.println("time: " + plan.getStartDate());
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-	    LocalDate startDate = LocalDate.parse(plan.getStartDate(), formatter);
-	    LocalDate endDate = LocalDate.parse(plan.getEndDate(), formatter);
-		long days = DAYS.between(startDate, endDate) + 1;
+		long days = getDays(plan);
 		
 		JSONObject summary = new JSONObject();
 		summary.put("region", plan.getRegion());
@@ -117,10 +113,17 @@ public class PlanServiceImpl implements PlanService {
 		param.put("content", summary.toString());
 		param.put("groupId", groupId);
 		param.put("userId", userId);
-		
-		System.out.println("input date : " + param);
-		
+				
 		return planMapper.insertPlanSummary(param);
+	}
+	
+	public long getDays(Plan plan) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+	    LocalDate startDate = LocalDate.parse(plan.getStartDate(), formatter);
+	    LocalDate endDate = LocalDate.parse(plan.getEndDate(), formatter);
+		long days = DAYS.between(startDate, endDate) + 1;
+		return days;
 	}
 
 }

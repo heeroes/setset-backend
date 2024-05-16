@@ -40,7 +40,15 @@ public interface PlanService {
 	 * @return
 	 */
 	Plan selectById(int id);
-
+	
+	/**
+	 * 계획 요약 정보 -> 게시판 저장
+	 * @param id
+	 * @param groupId
+	 * @param userId
+	 * @return
+	 * @throws JSONException
+	 */
 	int summaryPlan(int id, int groupId, int userId) throws JSONException;
 
 }

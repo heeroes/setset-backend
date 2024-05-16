@@ -27,7 +27,19 @@ public interface PlanMapper {
 	 */
 	int deletePlan(int id);
 	
+	/**
+	 * 여행 계획 안에 있는 여행지 모두 삭제
+	 * @param id
+	 * @return
+	 */
 	int deletePlanDetail(int id);
+	
+	/**
+	 * 여행 계획 삭제 전 삭제되는 여행지의 popularity 감소
+	 * @param id
+	 * @return
+	 */
+	int updatePopularityByPlan(int id);
 	
 	/**
 	 * 여행 계획 전체 조회
