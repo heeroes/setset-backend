@@ -7,5 +7,13 @@
         insert into `comment` (content, created_at, article_id, user_id)
             value (#{content}, now(), #{articleId}, #{userId})
     </insert>
-
+    <update id="update" parameterType="comment">
+        update comment set content=#{content}
+        where id=#{id}
+    </update>
+    <select id="findById" parameterType="int">
+        select id, content, created_at, article_id, user_id
+        from comment
+        where id=#{id}
+    </select>
 </mapper>

@@ -18,4 +18,15 @@ public class CommentServiceImpl implements CommentService{
             throw new RuntimeException("해당 그룹원만 댓글을 작성할 수 있습니다!");
         commentMapper.create(comment);
     }
+
+    @Override
+    public Comment update(Comment comment) {
+        // 댓글 작성한 사람만 수정 가능
+        Comment finded = commentMapper.findById(comment.getId());
+        if(finded.getUserId() != comment.getUserId())
+            throw new RuntimeException("해당 댓글 작성자만 수정할 수 있습니다.");
+        commentMapper.update(comment);
+        comment.setCreatedAt(finded.getCreatedAt());
+        return comment;
+    }
 }

@@ -4,4 +4,5 @@ import com.heeroes.setset.comment.dto.Comment;
 
 public interface CommentService {
     void create(Comment comment, int groupId);
+    Comment update(Comment comment);
 }
