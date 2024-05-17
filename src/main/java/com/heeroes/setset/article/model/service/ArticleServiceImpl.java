@@ -59,7 +59,9 @@ public class ArticleServiceImpl implements ArticleService{
         // 해당 그룹원만 조회 가능
         if(!userGroupMapper.isExist(new UserGroup(userId, groupId)))
             throw new RuntimeException("해당 그룹원만 피드를 조회할 수 있습니다!");
-        return articleMapper.getFeed(groupId);
+        List<Article> feed = articleMapper.getFeed(groupId);
+        System.out.println("feed:" + feed);
+        return feed;
 
     }
 }

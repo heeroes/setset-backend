@@ -91,6 +91,7 @@ public class ArticleController {
 
     /**
      * 그룹 게시판 피드(리스트) 조회 - 가장 최근 작성한 글부터 조회
+     * 첨부파일 imageKey까지 조회
      *
      * @param groupId
      * @param tokenHeader
