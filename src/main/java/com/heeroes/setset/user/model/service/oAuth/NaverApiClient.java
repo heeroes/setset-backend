@@ -1,4 +1,4 @@
-package com.heeroes.setset.user.model.service;
+package com.heeroes.setset.user.model.service.oAuth;
 
 import com.heeroes.setset.user.dto.NaverInfoResponse;
 import com.heeroes.setset.user.dto.NaverTokens;

@@ -11,8 +11,14 @@
         where email=#{email}
     </select>
 
+    <select id="findById" parameterType="int" resultType="user">
+        select id, nickname, email, oauth_provider, original_name, image_key
+        from user
+        where id=#{id}
+    </select>
+
     <insert id="insert" parameterType="user">
-        insert into user(nickname, email,sns_type, sns_connect_date)
+        insert into user(nickname, email,oauth_provider, sns_connect_date)
         values(#{nickname}, #{email}, #{oAuthProvider}, now())
     </insert>
     
@@ -21,5 +27,12 @@
 	update user set refresh_token=#{refreshToken}
 	where email=#{email} 
 	</update>
+    <update id="update" parameterType="user">
+        update user
+        set nickname=#{nickname},
+            original_name=#{originalName},
+            image_key=#{imageKey}
+        where id = #{id}
+    </update>
     
 </mapper>

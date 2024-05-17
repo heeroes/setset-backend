@@ -1,4 +1,4 @@
-package com.heeroes.setset.user.model.service;
+package com.heeroes.setset.user.model.service.oAuth;
 
 import com.heeroes.setset.user.dto.AuthTokens;
 import com.heeroes.setset.user.dto.OAuthInfoResponse;
