@@ -1,4 +1,4 @@
-package com.heeroes.setset.user.model.service;
+package com.heeroes.setset.user.model.service.oAuth;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.heeroes.setset.user.dto.GoogleInfoResponse;
@@ -12,7 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
