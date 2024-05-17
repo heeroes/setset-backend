@@ -11,4 +11,7 @@ public interface UserMapper {
     User findByEmail(String email);
     int insert(User user);
     int saveRefreshToken(Map<String,Object> map);
+    User findById(int userId);
+
+    void update(User user);
 }
