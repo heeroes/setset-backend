@@ -10,7 +10,7 @@ public interface ArticleService {
 
     void delete(int groupId, int id, int userId);
 
-    void modify(Article article);
+    void modify(Article article, List<MultipartFile> newAttachedFile, List<String> deletedFile) throws IOException;
 
     List<Article> getFeed(int groupId, int userId);
 }

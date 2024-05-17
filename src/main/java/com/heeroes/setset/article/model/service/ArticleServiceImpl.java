@@ -41,11 +41,16 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
-    public void modify(Article article) {
+    public void modify(Article article, List<MultipartFile> newAttachedFile, List<String> deletedFile)
+            throws IOException {
         // 게시글 작성한 사람만 수정 가능
         Article finded = articleMapper.findById(article.getId());
         if(finded.getUserId() != article.getUserId())
             throw new RuntimeException("해당 게시글 작성자만 수정할 수 있습니다.");
+        // deletedFile 삭제 (db + S3)
+        attachedFileService.deleteFileByImageKey(deletedFile);
+        // newAttachedFile 추가
+        attachedFileService.uploadFiles(article.getId(), newAttachedFile);
         articleMapper.modify(article);
     }
 

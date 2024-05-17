@@ -42,5 +42,15 @@ public class AttachedFileServiceImpl implements AttachedFileService{
         attachedFileMapper.deleteAllById(attachedFileList);
     }
 
+    @Override
+    public void deleteFileByImageKey(List<String> deletedImageKey) {
+        //DB에서 삭제
+        attachedFileMapper.deleteFileByImageKey(deletedImageKey);
+        //S3에서 삭제
+        for(String imageKey : deletedImageKey){
+            s3Util.deleteImageFromS3(imageKey);
+        }
+    }
+
 
 }

@@ -9,4 +9,5 @@ public interface AttachedFileMapper {
     int insertAttachedFileList(List<AttachedFile> attachedFiles);
     List<AttachedFile> findByArticleId(int articleId);
     void deleteAllById(List<AttachedFile> attachedFiles);
+    void deleteFileByImageKey(List<String> imageKeys);
 }

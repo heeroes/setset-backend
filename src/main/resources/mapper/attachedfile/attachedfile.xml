@@ -17,7 +17,7 @@
         where article_id=#{articleId}
     </select>
 
-    <!-- 선택된 게시글 삭제하기 -->
+    <!-- 선택된 게시글내 모든 첨부파일 삭제하기 -->
     <delete id="deleteAllById" parameterType="java.util.List">
         DELETE FROM attached_file
             <where>
@@ -26,6 +26,15 @@
                 </foreach>
 
             </where>
+    </delete>
 
+    <delete id="deleteFileByImageKey" parameterType="java.util.List">
+        DELETE FROM attached_file
+        <where>
+            <foreach collection="list" item="item" separator="OR">
+                (image_key=#{item})
+            </foreach>
+
+        </where>
     </delete>
 </mapper>
