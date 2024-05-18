@@ -1,16 +1,21 @@
 package com.heeroes.setset.safe.model.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.springframework.stereotype.Service;
+import org.xml.sax.SAXException;
 
 import com.heeroes.setset.attraction.dto.Attraction;
 import com.heeroes.setset.attraction.model.service.AttractionService;
 import com.heeroes.setset.plan.dto.Plan;
 import com.heeroes.setset.plan.model.service.PlanService;
 import com.heeroes.setset.plandetail.dto.PlanDetail;
+import com.heeroes.setset.safe.model.dao.HospitalDao;
 import com.heeroes.setset.safe.model.mapper.GuardHouseMapper;
 import com.heeroes.setset.safe.model.mapper.PoliceMapper;
 
@@ -22,10 +27,10 @@ public class SafeMapServiceImpl implements SafeMapService {
 	private final GuardHouseMapper guardHouseMapper;
 	private final PoliceMapper policeMapper;
 	private final PlanService planService;
-	private final AttractionService attractionService;
+	private final HospitalDao hospitalDao;
 	
 	@Override
-	public List<?> searchSafeMapByKeyword(int size, String keyword, String agencyType) {
+	public List<?> searchSafeMapByKeyword(int size, String keyword, String agencyType) throws IOException, SAXException, ParserConfigurationException {
 		Map<String, Object> param = new HashMap();
 		param.put("size", size);
 		param.put("keyword", keyword);
@@ -36,14 +41,14 @@ public class SafeMapServiceImpl implements SafeMapService {
 			case "guardHouse":
 				return guardHouseMapper.searchSafeMapByKeyword(param);
 			case "hospital":
-				return null;
+				return hospitalDao.searchSafeMapByKeyword(param);
 			default:
 				throw new RuntimeException("[police, guardHouse, hospital]에서만 선택 가능");
 		}
 	}
 
 	@Override
-	public List<?> searchSafeMapByLocation(int size, int planId, String agencyType) {
+	public List<?> searchSafeMapByLocation(int size, int planId, String agencyType) throws IOException, SAXException, ParserConfigurationException {
 		Map<String,Object> param = calculateLocationRange(planId);
 		param.put("size", size);
 		switch (agencyType) {
@@ -52,7 +57,7 @@ public class SafeMapServiceImpl implements SafeMapService {
 			case "guardHouse":
 				return guardHouseMapper.searchSafeMapByLocation(param);
 			case "hospital":
-				return null;
+				return hospitalDao.searchSafeMapByLocation(param);
 			default:
 				throw new RuntimeException("[police, guardHouse, hospital]에서만 선택 가능");
 		}
