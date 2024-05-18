@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+<mapper namespace="com.heeroes.setset.safe.model.mapper.GuardHouseMapper">
+	<select id="searchSafeMapByKeyword" parameterType="String" resultType="guardHouse">
+		select id, name, address, latitude, longitude, tel
+		from guard_house
+		where address like concat('%', #{keyword}, '%')
+		limit ${size}
+	</select>
+	
+	<select id="searchSafeMapByLocation" parameterType="map" resultType="guardHouse">
+		select id, name, address, latitude, longitude, tel
+		from guard_house
+		where #{maxLat} >= latitude and latitude >= #{minLat}
+		      and #{maxLong} >= longitude and longitude >= #{minLong}
+		limit ${size}
+	</select>
+
+</mapper>

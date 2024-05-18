@@ -23,6 +23,37 @@
 		</collection>
 	</resultMap>
 	
+	<resultMap type="plan" id="plan_plandetail_attraction">
+		<id column="id" property="id"/>  
+		<result column="title" property="title"/>
+		<result column="user_id" property="userId"/>
+		<result column="region" property="region"/>
+		<result column="start_date" property="startDate"/>
+		<result column="end_date" property="endDate"/>
+		
+		<!-- 리스트 형태는 collection -->
+		<collection property="planDetailList" javaType="list" ofType="planDetail">
+			<id column="pd_id" property="id"/>
+			<result column="plan_id" property="planId"/>
+			<result column="attraction_id" property="attractionId"/>
+			<result column="day" property="day"/>
+			<result column="order" property="order"/>
+			
+			<association property="attraction" javaType="attraction">
+				<id column="att_id" property="id" />
+				<result column="title" property="title" />
+				<result column="content_type_id" property="contentTypeId" />
+				<result column="addr" property="addr" />
+				<result column="image" property="image" />
+				<result column="latitude" property="latitude" />
+				<result column="longitude" property="longitude" />
+				<result column="overview" property="overview" />
+				<result column="popularity" property="popularity" />
+			</association>
+		
+		</collection>
+	</resultMap>
+	
 	<!-- {user_id}를 가지는 사용자의 전체 여행 계획 리스트 조회 -->
 	<select id="selectAll" resultMap="plan_plandetail">
 		select p.id, p.title, p.user_id, p.region, p.start_date, p.end_date, 
@@ -36,12 +67,15 @@
 	</select>
 	
 	<!-- {id}를 가지는 계획 상세 조회 -->
-	<select id="selectById" parameterType="int" resultMap="plan_plandetail">
+	<select id="selectById" parameterType="int" resultMap="plan_plandetail_attraction">
 		select p.id, p.title, p.user_id, p.region, p.start_date, p.end_date, 
-				pd.id as pd_id, pd.plan_id, pd.attraction_id, pd.day, pd.order
+				pd.id as pd_id, pd.plan_id, pd.attraction_id, pd.day, pd.order,
+				att.id as att_id, att.title, att.content_type_id, att.addr, att.image, att.latitude, att.longitude, att.overview, att.popularity
 		from plan p
 		left join plan_detail pd
 		on p.id = pd.plan_id
+		join attraction att
+		on pd.attraction_id = att.id
 		where p.id = #{id}
 		order by pd.day, pd.order
 	</select>
