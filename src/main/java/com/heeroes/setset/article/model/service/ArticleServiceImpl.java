@@ -45,6 +45,7 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
+    @Transactional
     public void modify(Article article, List<MultipartFile> newAttachedFile, List<String> deletedFile)
             throws IOException {
         // 게시글 작성한 사람만 수정 가능
@@ -59,6 +60,7 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Article> getFeed(int groupId, int userId) {
         // 해당 그룹원만 조회 가능
         if(!userGroupMapper.isExist(new UserGroup(userId, groupId)))
