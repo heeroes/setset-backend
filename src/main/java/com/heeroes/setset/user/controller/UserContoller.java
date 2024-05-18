@@ -57,4 +57,5 @@ public class UserContoller {
         UserInfoResponse response = userService.getUserInfo(userId);
         return ResponseEntity.ok(Response.success(response));
     }
+
 }

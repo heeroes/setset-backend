@@ -27,7 +27,6 @@ public class GroupServiceImpl implements GroupService{
     public GroupResponse create(GroupRequest groupRequest, int userId) {
         String name = groupRequest.getName();
         Group group = Group.builder()
-                .img(groupRequest.getImg())
                 .name(name)
                 .build();
         // 1. 그룹 db에 insert
@@ -41,6 +40,7 @@ public class GroupServiceImpl implements GroupService{
     }
 
     @Override
+    @Transactional
     public GroupInviteResponse invite(int groupId, List<String> emails, int userId){
         if(emails.size() > 5) throw new RuntimeException("한 요청당 이메일은 5개 이하만 가능합니다.");
         List<User> users = new ArrayList<>();
@@ -64,7 +64,6 @@ public class GroupServiceImpl implements GroupService{
         Group group = Group.builder()
                 .id(id)
                 .name(name)
-                .img(groupRequest.getImg())
                 .build();
         // 1. 해당 유저가 그룹에 존재하는지
         if(!userGroupMapper.isExist(new UserGroup(userId, group.getId()))) throw new RuntimeException("그룹 수정은 해당 그룹원만 가능합니다.");
@@ -86,4 +85,12 @@ public class GroupServiceImpl implements GroupService{
             groupMapper.deleteById(groupId);
         }
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<GroupResponse> findGroupByUserId(int userId) {
+        return userGroupMapper.findGroupByUserId(userId);
+    }
+
+
 }
