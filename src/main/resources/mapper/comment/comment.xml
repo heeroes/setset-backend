@@ -25,4 +25,10 @@
         delete from comment
         where article_id=#{id}
     </delete>
+    <select id="getAllByArticleId" parameterType="int" resultType="commentResponse">
+        select c.id, c.content, c.created_at, u.nickname as userNickname, u.image_key as userImageKey
+        from comment c, user u
+        where c.user_id = u.id
+        and c.article_id = #{id}
+    </select>
 </mapper>

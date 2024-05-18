@@ -1,9 +1,11 @@
 package com.heeroes.setset.comment.model.service;
 
 import com.heeroes.setset.comment.dto.Comment;
+import com.heeroes.setset.comment.dto.CommentResponse;
 import com.heeroes.setset.comment.model.mapper.CommentMapper;
 import com.heeroes.setset.usergroup.dto.UserGroup;
 import com.heeroes.setset.usergroup.model.mapper.UserGroupMapper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +39,13 @@ public class CommentServiceImpl implements CommentService{
         if(finded.getUserId() != userId)
             throw new RuntimeException("해당 댓글 작성자만 삭제 가능합니다.");
         commentMapper.deleteById(id);
+    }
+
+    @Override
+    public List<CommentResponse> getAllByArticleId(int articleId, int userId, int groupId) {
+        // 해당 그룹원만 조회 가능
+        if(!userGroupMapper.isExist(new UserGroup(userId, groupId)))
+            throw new RuntimeException("해당 그룹원만 댓글을 조회할 수 있습니다!");
+        return commentMapper.getAllByArticleId(articleId);
     }
 }
