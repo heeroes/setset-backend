@@ -16,4 +16,13 @@
         from comment
         where id=#{id}
     </select>
+
+    <delete id="deleteById" parameterType="int">
+        delete from comment
+        where id=#{id}
+    </delete>
+    <delete id="deleteAllByArticleId" parameterType="int">
+        delete from comment
+        where article_id=#{id}
+    </delete>
 </mapper>

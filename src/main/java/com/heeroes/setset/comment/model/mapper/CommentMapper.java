@@ -9,4 +9,8 @@ public interface CommentMapper {
     void update(Comment comment);
 
     Comment findById(int id);
+
+    void deleteById(int id);
+
+    void deleteAllByArticleId(int id);
 }

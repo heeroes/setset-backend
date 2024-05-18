@@ -6,6 +6,7 @@ import com.heeroes.setset.common.Response;
 import com.heeroes.setset.user.utils.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -43,5 +44,13 @@ public class CommentController {
         comment.setId(id);
         Comment updated = commentService.update(comment);
         return ResponseEntity.ok(Response.success(updated));
+    }
+
+    @DeleteMapping("/{groupId}/article/{articleId}/comment/{id}")
+    public ResponseEntity<Response<String>> delete(@PathVariable int groupId, @PathVariable int articleId,
+                                                   @PathVariable int id,@RequestHeader("Authorization") String tokenHeader){
+        int userId = jwtTokenProvider.extractUserId(tokenHeader.substring(7));
+        commentService.deleteById(id, userId);
+        return ResponseEntity.ok(Response.success("댓글 삭제 완료"));
     }
 }

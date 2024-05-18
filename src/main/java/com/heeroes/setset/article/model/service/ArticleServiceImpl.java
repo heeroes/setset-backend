@@ -3,6 +3,7 @@ package com.heeroes.setset.article.model.service;
 import com.heeroes.setset.article.dto.Article;
 import com.heeroes.setset.article.model.mapper.ArticleMapper;
 import com.heeroes.setset.attachedfile.model.service.AttachedFileService;
+import com.heeroes.setset.comment.model.mapper.CommentMapper;
 import com.heeroes.setset.usergroup.dto.UserGroup;
 import com.heeroes.setset.usergroup.model.mapper.UserGroupMapper;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ArticleServiceImpl implements ArticleService{
     private final ArticleMapper articleMapper;
     private final UserGroupMapper userGroupMapper;
+    private final CommentMapper commentMapper;
     private final AttachedFileService attachedFileService;
     @Override
     @Transactional
@@ -37,6 +39,8 @@ public class ArticleServiceImpl implements ArticleService{
             throw new RuntimeException("해당 게시글 작성자만 삭제할 수 있습니다!");
         //해당 게시글의 첨부파일도 삭제
         attachedFileService.deleteAllFileByArticleId(id);
+        //해당 게시글의 댓글 모두 삭제
+        commentMapper.deleteAllByArticleId(id);
         articleMapper.deleteById(id);
     }
 

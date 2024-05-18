@@ -29,4 +29,13 @@ public class CommentServiceImpl implements CommentService{
         comment.setCreatedAt(finded.getCreatedAt());
         return comment;
     }
+
+    @Override
+    public void deleteById(int id, int userId) {
+        // 댓글 작성한 사람만 삭제 가능
+        Comment finded = commentMapper.findById(id);
+        if(finded.getUserId() != userId)
+            throw new RuntimeException("해당 댓글 작성자만 삭제 가능합니다.");
+        commentMapper.deleteById(id);
+    }
 }
