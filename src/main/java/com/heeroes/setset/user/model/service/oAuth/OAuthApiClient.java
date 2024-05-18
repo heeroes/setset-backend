@@ -1,8 +1,8 @@
 package com.heeroes.setset.user.model.service.oAuth;
 
-import com.heeroes.setset.user.dto.OAuthInfoResponse;
-import com.heeroes.setset.user.dto.OAuthLoginParams;
-import com.heeroes.setset.user.dto.OAuthProvider;
+import com.heeroes.setset.user.dto.oauth.OAuthInfoResponse;
+import com.heeroes.setset.user.dto.oauth.OAuthLoginParams;
+import com.heeroes.setset.user.dto.oauth.OAuthProvider;
 
 public interface OAuthApiClient {
     OAuthProvider oAuthProvider();

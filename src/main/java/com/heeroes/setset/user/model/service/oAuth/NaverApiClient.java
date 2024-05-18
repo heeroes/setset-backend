@@ -1,10 +1,10 @@
 package com.heeroes.setset.user.model.service.oAuth;
 
-import com.heeroes.setset.user.dto.NaverInfoResponse;
-import com.heeroes.setset.user.dto.NaverTokens;
-import com.heeroes.setset.user.dto.OAuthInfoResponse;
-import com.heeroes.setset.user.dto.OAuthLoginParams;
-import com.heeroes.setset.user.dto.OAuthProvider;
+import com.heeroes.setset.user.dto.oauth.NaverInfoResponse;
+import com.heeroes.setset.user.dto.oauth.NaverTokens;
+import com.heeroes.setset.user.dto.oauth.OAuthInfoResponse;
+import com.heeroes.setset.user.dto.oauth.OAuthLoginParams;
+import com.heeroes.setset.user.dto.oauth.OAuthProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;

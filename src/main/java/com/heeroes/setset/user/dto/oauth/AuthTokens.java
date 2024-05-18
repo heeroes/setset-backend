@@ -1,4 +1,4 @@
-package com.heeroes.setset.user.dto;
+package com.heeroes.setset.user.dto.oauth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

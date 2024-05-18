@@ -1,6 +1,6 @@
 package com.heeroes.setset.user.utils;
 
-import com.heeroes.setset.user.dto.AuthTokens;
+import com.heeroes.setset.user.dto.oauth.AuthTokens;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

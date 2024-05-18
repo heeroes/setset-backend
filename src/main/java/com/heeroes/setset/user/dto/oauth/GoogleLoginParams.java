@@ -1,4 +1,4 @@
-package com.heeroes.setset.user.dto;
+package com.heeroes.setset.user.dto.oauth;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,20 +7,29 @@ import org.springframework.util.MultiValueMap;
 
 @Getter
 @NoArgsConstructor
-public class NaverLoginParams implements OAuthLoginParams{
+public class GoogleLoginParams implements OAuthLoginParams{
     private String authorizationCode;
-    private String state;
+
+    public GoogleLoginParams(String authorizationCode) {
+        this.authorizationCode = authorizationCode;
+    }
 
     @Override
     public OAuthProvider oAuthProvider() {
-        return OAuthProvider.NAVER;
+        return OAuthProvider.GOOGLE;
     }
 
     @Override
     public MultiValueMap<String, String> makeBody() {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("code", authorizationCode);
-        body.add("state", state);
         return body;
     }
+
+	@Override
+	public String toString() {
+		return "GoogleLoginParams [authorizationCode=" + authorizationCode + "]";
+	}
+    
+    
 }
