@@ -19,6 +19,7 @@ import com.heeroes.setset.attraction.model.mapper.AttractionMapper;
 import com.heeroes.setset.plan.dto.Plan;
 import com.heeroes.setset.plan.dto.PlanPaginationResponse;
 import com.heeroes.setset.plan.model.mapper.PlanMapper;
+import com.heeroes.setset.plandetail.dto.PlanDetail;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +27,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class PlanServiceImpl implements PlanService {
 	private final PlanMapper planMapper;
-	private final AttractionMapper attractionMapper;
 	
 	@Override
 	public boolean checkUserMatch(int planId, int userId) {
@@ -111,14 +111,13 @@ public class PlanServiceImpl implements PlanService {
 		else
 			summary.put("days", (days-1)+"박 "+(days)+"일");
 		
-		int size = plan.getPlanDetailList().size();
+		List<PlanDetail> pdList = plan.getPlanDetailList();
+		int size = pdList.size();
 		summary.put("total_attraction", size);
 		
 		Set<Integer> contentTypes = new HashSet();
-		for (int i = 0; i < size; i++) {
-			contentTypes.add(attractionMapper.searchById
-					(plan.getPlanDetailList().get(i).getAttractionId())
-					.getContentTypeId());	
+		for (PlanDetail pd : pdList) {
+			contentTypes.add(pd.getAttraction().getContentTypeId());	
 		}
 		
 		summary.put("contentTypes", contentTypes);
