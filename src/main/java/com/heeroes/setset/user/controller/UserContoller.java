@@ -66,6 +66,7 @@ public class UserContoller {
     @GetMapping("/profile")
     public ResponseEntity<Response<UserInfoResponse>> getUserInfo(@RequestHeader("Authorization") String tokenHeader) {
         int userId = jwtTokenProvider.extractUserId(tokenHeader.substring(7));
+        System.out.println("profile : " + userId);
         UserInfoResponse response = userService.getUserInfo(userId);
         return ResponseEntity.ok(Response.success(response));
     }
