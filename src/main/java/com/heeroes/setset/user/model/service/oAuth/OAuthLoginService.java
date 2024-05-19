@@ -1,8 +1,8 @@
 package com.heeroes.setset.user.model.service.oAuth;
 
-import com.heeroes.setset.user.dto.AuthTokens;
-import com.heeroes.setset.user.dto.OAuthInfoResponse;
-import com.heeroes.setset.user.dto.OAuthLoginParams;
+import com.heeroes.setset.user.dto.oauth.AuthTokens;
+import com.heeroes.setset.user.dto.oauth.OAuthInfoResponse;
+import com.heeroes.setset.user.dto.oauth.OAuthLoginParams;
 import com.heeroes.setset.user.dto.User;
 import com.heeroes.setset.user.model.mapper.UserMapper;
 import com.heeroes.setset.user.utils.AuthTokensGenerator;

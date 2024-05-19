@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -52,6 +53,14 @@ public class GroupController {
         int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
         groupService.leaveGroup(id, userId);
         return ResponseEntity.ok(Response.success(""));
+    }
+
+    @GetMapping("")
+    public ResponseEntity<Response<List<GroupResponse>>> getGroupListByUserId( @RequestHeader("Authorization") String tokenHeader){
+        int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
+        List<GroupResponse> response = groupService.findGroupByUserId(userId);
+        return ResponseEntity.ok(Response.success(response));
+
     }
 
 }

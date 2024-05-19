@@ -25,4 +25,11 @@
         FROM `user_group`
         WHERE group_id=#{groupId}
     </select>
+
+    <select id="findGroupByUserId" parameterType="int" resultType="groupResponse">
+        select g.id, g.name
+        from user_group u, `group` g
+        where u.user_id = #{userId}
+        and u.group_id = g.id
+    </select>
 </mapper>

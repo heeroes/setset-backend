@@ -13,4 +13,6 @@ public interface GroupService {
     GroupResponse modify(int id, GroupRequest groupRequest, int userId);
 
     void leaveGroup(int id, int userId);
+
+    List<GroupResponse> findGroupByUserId(int userId);
 }

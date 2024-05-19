@@ -1,4 +1,4 @@
-package com.heeroes.setset.user.dto;
+package com.heeroes.setset.user.dto.oauth;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

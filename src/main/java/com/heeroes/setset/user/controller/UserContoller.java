@@ -1,9 +1,10 @@
 package com.heeroes.setset.user.controller;
 
 import com.heeroes.setset.common.Response;
-import com.heeroes.setset.user.dto.AuthTokens;
-import com.heeroes.setset.user.dto.GoogleLoginParams;
-import com.heeroes.setset.user.dto.NaverLoginParams;
+import com.heeroes.setset.user.dto.UserInfoResponse;
+import com.heeroes.setset.user.dto.oauth.AuthTokens;
+import com.heeroes.setset.user.dto.oauth.GoogleLoginParams;
+import com.heeroes.setset.user.dto.oauth.NaverLoginParams;
 import com.heeroes.setset.user.dto.User;
 import com.heeroes.setset.user.model.service.UserService;
 import com.heeroes.setset.user.model.service.oAuth.OAuthLoginService;
@@ -49,4 +50,12 @@ public class UserContoller {
         User user = userService.modifyProfile(userId, userImage, nickname);
         return ResponseEntity.ok(Response.success(user));
     }
+
+    @GetMapping("/profile")
+    public ResponseEntity<Response<UserInfoResponse>> getUserInfo(@RequestHeader("Authorization") String tokenHeader){
+        int userId = jwtTokenProvider.extractUserId(tokenHeader.substring(7));
+        UserInfoResponse response = userService.getUserInfo(userId);
+        return ResponseEntity.ok(Response.success(response));
+    }
+
 }

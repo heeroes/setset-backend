@@ -1,10 +1,10 @@
 package com.heeroes.setset.user.model.service.oAuth;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.heeroes.setset.user.dto.GoogleInfoResponse;
-import com.heeroes.setset.user.dto.GoogleTokens;
-import com.heeroes.setset.user.dto.OAuthLoginParams;
-import com.heeroes.setset.user.dto.OAuthProvider;
+import com.heeroes.setset.user.dto.oauth.GoogleInfoResponse;
+import com.heeroes.setset.user.dto.oauth.GoogleTokens;
+import com.heeroes.setset.user.dto.oauth.OAuthLoginParams;
+import com.heeroes.setset.user.dto.oauth.OAuthProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
