@@ -10,11 +10,13 @@ import com.heeroes.setset.user.model.service.UserService;
 import com.heeroes.setset.user.model.service.oAuth.OAuthLoginService;
 import com.heeroes.setset.user.utils.JwtTokenProvider;
 import java.io.IOException;
+import java.net.URI;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,28 +33,38 @@ public class UserContoller {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
 
-    @PostMapping("/login/naver")
-    public ResponseEntity<AuthTokens> loginByNaver(@RequestBody NaverLoginParams params) {
-        return ResponseEntity.ok(oAuthLoginService.login(params));
+    @GetMapping("/login/naver")
+    public ResponseEntity<AuthTokens> loginByNaver(@RequestParam String code, @RequestParam String state) {
+        NaverLoginParams params = new NaverLoginParams(code, state);
+        AuthTokens login = oAuthLoginService.login(params);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("http://localhost:5173/login/success?accessToken=" + login.getAccessToken()));
+        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
+
     @GetMapping("/login/google")
-    public ResponseEntity<AuthTokens> loginByGoogle(@RequestParam String code) {
+    public ResponseEntity<?> loginByGoogle(@RequestParam String code) {
         GoogleLoginParams params = new GoogleLoginParams(code);
         System.out.println("paramr : " + params);
-        return ResponseEntity.ok(oAuthLoginService.login(params));
+        AuthTokens login = oAuthLoginService.login(params);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("http://localhost:5173/login/success?accessToken=" + login.getAccessToken()));
+        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
     @PostMapping("/profile")
-    public ResponseEntity<Response<User>> modifyProfile(@RequestPart MultipartFile userImage, @RequestPart String nickname,
-                                                  @RequestHeader("Authorization") String tokenHeader) throws IOException {
+    public ResponseEntity<Response<User>> modifyProfile(@RequestPart MultipartFile userImage,
+                                                        @RequestPart String nickname,
+                                                        @RequestHeader("Authorization") String tokenHeader)
+            throws IOException {
         int userId = jwtTokenProvider.extractUserId(tokenHeader.substring(7));
         User user = userService.modifyProfile(userId, userImage, nickname);
         return ResponseEntity.ok(Response.success(user));
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<Response<UserInfoResponse>> getUserInfo(@RequestHeader("Authorization") String tokenHeader){
+    public ResponseEntity<Response<UserInfoResponse>> getUserInfo(@RequestHeader("Authorization") String tokenHeader) {
         int userId = jwtTokenProvider.extractUserId(tokenHeader.substring(7));
         UserInfoResponse response = userService.getUserInfo(userId);
         return ResponseEntity.ok(Response.success(response));
