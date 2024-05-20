@@ -1,6 +1,7 @@
 package com.heeroes.setset.group.controller;
 
 import com.heeroes.setset.common.Response;
+import com.heeroes.setset.group.dto.Group;
 import com.heeroes.setset.group.dto.GroupInviteResponse;
 import com.heeroes.setset.group.dto.GroupRequest;
 import com.heeroes.setset.group.dto.GroupResponse;
@@ -27,10 +28,10 @@ public class GroupController {
     private final JwtTokenProvider tokenProvider;
 
     @PostMapping("")
-    public ResponseEntity<Response<GroupResponse>> create(@RequestBody GroupRequest groupRequest, @RequestHeader("Authorization") String tokenHeader){
+    public ResponseEntity<Response<String>> create(@RequestBody GroupRequest groupRequest, @RequestHeader("Authorization") String tokenHeader){
         int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
-        GroupResponse groupResponse = groupService.create(groupRequest, userId);
-        return ResponseEntity.ok(Response.success(groupResponse));
+        groupService.create(groupRequest, userId);
+        return ResponseEntity.ok(Response.success("그룹 생성 성공"));
     }
 
     @PostMapping("/{id}/invite")
@@ -42,10 +43,10 @@ public class GroupController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response<GroupResponse>> modify(@PathVariable int id, @RequestBody GroupRequest groupRequest,@RequestHeader("Authorization") String tokenHeader){
+    public ResponseEntity<Response<Group>> modify(@PathVariable int id, @RequestBody GroupRequest groupRequest, @RequestHeader("Authorization") String tokenHeader){
         int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
-        GroupResponse groupResponse = groupService.modify(id, groupRequest, userId);
-        return ResponseEntity.ok(Response.success(groupResponse));
+        Group group = groupService.modify(id, groupRequest, userId);
+        return ResponseEntity.ok(Response.success(group));
     }
 
     @DeleteMapping("/{id}/user")

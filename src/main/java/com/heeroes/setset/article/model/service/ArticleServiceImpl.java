@@ -70,4 +70,18 @@ public class ArticleServiceImpl implements ArticleService{
         return feed;
 
     }
+
+    @Override
+    @Transactional
+    public void deleteAllByGroupId(int groupId){
+        //모든 게시글의 댓글 삭제 후 게시글 삭제
+        List<Article> articles = articleMapper.getFeed(groupId);
+        for(Article article : articles){
+            //관련 댓글 삭제
+            commentMapper.deleteAllByArticleId(article.getId());
+            // 게시글 삭제
+            articleMapper.deleteById(article.getId());
+        }
+
+    }
 }

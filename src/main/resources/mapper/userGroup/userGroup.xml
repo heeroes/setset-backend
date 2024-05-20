@@ -26,7 +26,7 @@
         WHERE group_id=#{groupId}
     </select>
 
-    <select id="findGroupByUserId" parameterType="int" resultType="groupResponse">
+    <select id="findGroupByUserId" parameterType="int" resultType="group">
         select g.id, g.name
         from user_group u, `group` g
         where u.user_id = #{userId}

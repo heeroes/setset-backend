@@ -13,4 +13,6 @@ public interface ArticleService {
     void modify(Article article, List<MultipartFile> newAttachedFile, List<String> deletedFile) throws IOException;
 
     List<Article> getFeed(int groupId, int userId);
+
+    void deleteAllByGroupId(int groupId);
 }

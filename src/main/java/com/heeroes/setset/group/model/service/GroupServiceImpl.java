@@ -1,5 +1,6 @@
 package com.heeroes.setset.group.model.service;
 
+import com.heeroes.setset.article.model.service.ArticleService;
 import com.heeroes.setset.group.dto.Group;
 import com.heeroes.setset.group.dto.GroupInviteResponse;
 import com.heeroes.setset.group.dto.GroupRequest;
@@ -21,10 +22,11 @@ public class GroupServiceImpl implements GroupService{
     private final GroupMapper groupMapper;
     private final UserGroupMapper userGroupMapper;
     private final UserMapper userMapper;
+    private final ArticleService articleService;
 
     @Override
     @Transactional
-    public GroupResponse create(GroupRequest groupRequest, int userId) {
+    public void create(GroupRequest groupRequest, int userId) {
         String name = groupRequest.getName();
         Group group = Group.builder()
                 .name(name)
@@ -35,8 +37,6 @@ public class GroupServiceImpl implements GroupService{
         //2. 그룹원 db에 userId, groupId insert
         UserGroup userGroup = new UserGroup(userId, group.getId());
         userGroupMapper.insert(userGroup);
-
-        return new GroupResponse(group.getId(), name);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class GroupServiceImpl implements GroupService{
     }
 
     @Override
-    public GroupResponse modify(int id, GroupRequest groupRequest, int userId) {
+    public Group modify(int id, GroupRequest groupRequest, int userId) {
         String name = groupRequest.getName();
         Group group = Group.builder()
                 .id(id)
@@ -71,17 +71,22 @@ public class GroupServiceImpl implements GroupService{
         groupMapper.modify(group);
         System.out.println("groupName : " + group.getName());
 
-        return new GroupResponse(group.getId(), name);
+        return new Group(group.getId(), name);
     }
 
     @Override
     @Transactional
     public void leaveGroup(int groupId, int userId) {
         userGroupMapper.delete(new UserGroup(userId, groupId));
-        //그룹에 아무도 없다면 그룹 정보까지 삭제
         int userCnt = userGroupMapper.countGroupUser(groupId);
         System.out.println("userCnt in group: "  + userCnt);
+        //그룹에 아무도 없다면
         if(userCnt == 0){
+            // 그룹 관련 게시글 다 삭제
+            System.out.println("그룹 게시글 다 삭제");
+            articleService.deleteAllByGroupId(groupId);
+            // 그룹 정보까지 삭제
+            System.out.println("그룹 정보 삭제");
             groupMapper.deleteById(groupId);
         }
     }
@@ -89,7 +94,17 @@ public class GroupServiceImpl implements GroupService{
     @Override
     @Transactional(readOnly = true)
     public List<GroupResponse> findGroupByUserId(int userId) {
-        return userGroupMapper.findGroupByUserId(userId);
+        List<Group> groups = userGroupMapper.findGroupByUserId(userId);
+        List<GroupResponse> responses = new ArrayList<>();
+        for(Group group : groups){
+            int cnt = userGroupMapper.countGroupUser(group.getId());
+            responses.add(GroupResponse.builder()
+                    .userCnt(cnt)
+                    .id(group.getId())
+                    .name(group.getName())
+                    .build());
+        }
+        return responses;
     }
 
 
