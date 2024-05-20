@@ -32,4 +32,11 @@
         where u.user_id = #{userId}
         and u.group_id = g.id
     </select>
+
+    <select id="findUserByGroupId" parameterType="int" resultType="user">
+        select u.id, u.nickname, u.image_key, u.email
+        from user_group g, `user` u
+        where g.group_id = #{id}
+          and g.user_id = u.id
+    </select>
 </mapper>

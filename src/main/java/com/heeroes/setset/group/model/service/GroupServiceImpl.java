@@ -59,6 +59,7 @@ public class GroupServiceImpl implements GroupService{
     }
 
     @Override
+    @Transactional
     public Group modify(int id, GroupRequest groupRequest, int userId) {
         String name = groupRequest.getName();
         Group group = Group.builder()
@@ -105,6 +106,12 @@ public class GroupServiceImpl implements GroupService{
                     .build());
         }
         return responses;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> findUserByGroupId(int id) {
+        return userGroupMapper.findUserByGroupId(id);
     }
 
 

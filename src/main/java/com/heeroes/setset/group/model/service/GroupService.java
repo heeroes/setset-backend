@@ -4,6 +4,7 @@ import com.heeroes.setset.group.dto.Group;
 import com.heeroes.setset.group.dto.GroupInviteResponse;
 import com.heeroes.setset.group.dto.GroupRequest;
 import com.heeroes.setset.group.dto.GroupResponse;
+import com.heeroes.setset.user.dto.User;
 import java.util.List;
 
 public interface GroupService {
@@ -16,4 +17,6 @@ public interface GroupService {
     void leaveGroup(int id, int userId);
 
     List<GroupResponse> findGroupByUserId(int userId);
+
+    List<User> findUserByGroupId(int id);
 }
