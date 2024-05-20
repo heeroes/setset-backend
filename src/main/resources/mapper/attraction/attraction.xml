@@ -58,7 +58,7 @@
     	select id, title, content_type_id, addr, image, latitude, longitude, overview, popularity
 		from attraction
 		where popularity > 0
-		order by popularity
+		order by popularity desc
 		limit 10
     </select>
 
