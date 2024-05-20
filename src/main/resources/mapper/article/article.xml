@@ -22,12 +22,14 @@
     </update>
 
 
-    <resultMap id="articleWithFile" type="article">
+    <resultMap id="articleWithFile" type="feedResponse">
         <id property="id" column="id"/>
         <result property="content" column="content"/>
         <result property="createdAt" column="created_at"/>
         <result property="groupId" column="group_id"/>
         <result property="userId" column="user_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="userImageKey" column="userImageKey"/>
         <!-- List<String> 형식으로 imageKey 매핑 -->
         <collection property="images" ofType="String">
             <result column="image_key" property="image_key"/>
@@ -35,8 +37,10 @@
     </resultMap>
     <!--해당 그룹의 모든 게시글 조회 + 게시글 당 첨부파일까지 조회 -->
     <select id="getFeed" parameterType="int" resultMap="articleWithFile">
-        select a.id, a.content, a.created_at, a.group_id, a.user_id, f.image_key
-        from article a
+        select a.id, a.content, a.created_at, a.group_id, a.user_id, f.image_key, u.nickname, u.image_key as userImageKey
+        from user u
+        join article a
+        on a.user_id = u.id
         left join attached_file f
         on a.id = f.article_id
         where a.group_id=#{groupId}
