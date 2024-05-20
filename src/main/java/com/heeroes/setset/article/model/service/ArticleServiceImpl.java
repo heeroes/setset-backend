@@ -77,6 +77,8 @@ public class ArticleServiceImpl implements ArticleService{
         //모든 게시글의 댓글 삭제 후 게시글 삭제
         List<Article> articles = articleMapper.getFeed(groupId);
         for(Article article : articles){
+            //해당 게시글의 첨부파일도 삭제
+            attachedFileService.deleteAllFileByArticleId(article.getId());
             //관련 댓글 삭제
             commentMapper.deleteAllByArticleId(article.getId());
             // 게시글 삭제
