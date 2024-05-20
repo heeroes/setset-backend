@@ -42,7 +42,7 @@
 		from plan p
 		left join plan_detail pd
 		on p.id = pd.plan_id
-		join attraction att
+		left join attraction att
 		on pd.attraction_id = att.id
 		where p.user_id = #{userId}
 		order by p.id, pd.day, pd.order
@@ -57,7 +57,7 @@
 		from plan p
 		left join plan_detail pd
 		on p.id = pd.plan_id
-		join attraction att
+		left join attraction att
 		on pd.attraction_id = att.id
 		where p.id = #{id}
 		order by pd.day, pd.order

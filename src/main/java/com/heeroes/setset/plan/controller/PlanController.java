@@ -103,7 +103,7 @@ public class PlanController {
 	 */
 	@GetMapping()
 	public ResponseEntity<?> selectAll(
-			@RequestParam(defaultValue = "5") int size,
+			@RequestParam(defaultValue = "100") int size,
 			@RequestParam(defaultValue = "1") int page,
 			@RequestHeader("Authorization") String tokenHeader){
 		
