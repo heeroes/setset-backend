@@ -1,6 +1,7 @@
 package com.heeroes.setset.article.controller;
 
 import com.heeroes.setset.article.dto.Article;
+import com.heeroes.setset.article.dto.FeedResponse;
 import com.heeroes.setset.article.model.service.ArticleService;
 import com.heeroes.setset.common.Response;
 import com.heeroes.setset.user.utils.JwtTokenProvider;
@@ -98,10 +99,10 @@ public class ArticleController {
      * @return
      */
     @GetMapping("/{groupId}/article")
-    public ResponseEntity<Response<List<Article>>> getFeed(@PathVariable int groupId,
-                                                           @RequestHeader("Authorization") String tokenHeader) {
+    public ResponseEntity<Response<List<FeedResponse>>> getFeed(@PathVariable int groupId,
+                                                                @RequestHeader("Authorization") String tokenHeader) {
         int userId = jwtTokenProvider.extractUserId(tokenHeader.substring(7));
-        List<Article> articles = articleService.getFeed(groupId, userId);
+        List<FeedResponse> articles = articleService.getFeed(groupId, userId);
         return ResponseEntity.ok(Response.success(articles));
     }
 }

@@ -1,6 +1,7 @@
 package com.heeroes.setset.usergroup.model.mapper;
 
 import com.heeroes.setset.group.dto.Group;
+import com.heeroes.setset.user.dto.User;
 import com.heeroes.setset.usergroup.dto.UserGroup;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,4 +18,6 @@ public interface UserGroupMapper {
     int countGroupUser(int groupId);
 
     List<Group> findGroupByUserId(int userId);
+
+    List<User> findUserByGroupId(int id);
 }

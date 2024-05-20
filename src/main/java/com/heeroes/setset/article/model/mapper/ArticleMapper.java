@@ -1,6 +1,7 @@
 package com.heeroes.setset.article.model.mapper;
 
 import com.heeroes.setset.article.dto.Article;
+import com.heeroes.setset.article.dto.FeedResponse;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,5 +13,5 @@ public interface ArticleMapper {
 
     void modify(Article article);
 
-    List<Article> getFeed(int groupId);
+    List<FeedResponse> getFeed(int groupId);
 }

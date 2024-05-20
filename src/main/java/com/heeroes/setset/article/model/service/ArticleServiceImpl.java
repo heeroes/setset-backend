@@ -1,6 +1,7 @@
 package com.heeroes.setset.article.model.service;
 
 import com.heeroes.setset.article.dto.Article;
+import com.heeroes.setset.article.dto.FeedResponse;
 import com.heeroes.setset.article.model.mapper.ArticleMapper;
 import com.heeroes.setset.attachedfile.model.service.AttachedFileService;
 import com.heeroes.setset.comment.model.mapper.CommentMapper;
@@ -61,11 +62,11 @@ public class ArticleServiceImpl implements ArticleService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<Article> getFeed(int groupId, int userId) {
+    public List<FeedResponse> getFeed(int groupId, int userId) {
         // 해당 그룹원만 조회 가능
         if(!userGroupMapper.isExist(new UserGroup(userId, groupId)))
             throw new RuntimeException("해당 그룹원만 피드를 조회할 수 있습니다!");
-        List<Article> feed = articleMapper.getFeed(groupId);
+        List<FeedResponse> feed = articleMapper.getFeed(groupId);
         System.out.println("feed:" + feed);
         return feed;
 
@@ -75,8 +76,8 @@ public class ArticleServiceImpl implements ArticleService{
     @Transactional
     public void deleteAllByGroupId(int groupId){
         //모든 게시글의 댓글 삭제 후 게시글 삭제
-        List<Article> articles = articleMapper.getFeed(groupId);
-        for(Article article : articles){
+        List<FeedResponse> articles = articleMapper.getFeed(groupId);
+        for(FeedResponse article : articles){
             //해당 게시글의 첨부파일도 삭제
             attachedFileService.deleteAllFileByArticleId(article.getId());
             //관련 댓글 삭제

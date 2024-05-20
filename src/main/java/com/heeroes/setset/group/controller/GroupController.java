@@ -6,6 +6,7 @@ import com.heeroes.setset.group.dto.GroupInviteResponse;
 import com.heeroes.setset.group.dto.GroupRequest;
 import com.heeroes.setset.group.dto.GroupResponse;
 import com.heeroes.setset.group.model.service.GroupService;
+import com.heeroes.setset.user.dto.User;
 import com.heeroes.setset.user.utils.JwtTokenProvider;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +62,14 @@ public class GroupController {
         int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
         List<GroupResponse> response = groupService.findGroupByUserId(userId);
         return ResponseEntity.ok(Response.success(response));
-
     }
 
+    /*
+    그룹 구성원 조회
+     */
+    @GetMapping("/{id}/user")
+    public ResponseEntity<Response<List<User>>> getGroupUserListByGroupId(@PathVariable int id){
+        List<User> users = groupService.findUserByGroupId(id);
+        return ResponseEntity.ok(Response.success(users));
+    }
 }
