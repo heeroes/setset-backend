@@ -61,24 +61,23 @@ public class PlanDetailServiceImpl implements PlanDetailService {
 	}
 
 	@Override
-	public int updatePlanDetailList(int planId, Map<String, List<PlanDetail>> pdList, int userId) { // day: { [ {}, {}, ...] }
+	public int updatePlanDetailList(int planId, List<List<PlanDetail>> pdList, int userId) { // day: { [ {}, {}, ...] }
 		planService.checkUserMatch(planId, userId);
 		
 		Map<String, Object> param = new HashMap();
 		List<PlanDetail> totalList = new ArrayList();
-		for (Map.Entry<String, List<PlanDetail>> entry : pdList.entrySet()) {
-			List<PlanDetail> list = entry.getValue();
-			int day = Integer.parseInt(entry.getKey());
-			for (int i=0;i<list.size();i++) {
-				PlanDetail pd = list.get(i);
-				pd.setDay(day);
-				pd.setOrder(i+1);
+		for (int i=0;i<pdList.size();i++) {
+			List<PlanDetail> pds = pdList.get(i);
+			for (int j=0;j<pds.size();j++) {
+				PlanDetail pd = pds.get(j);
+				pd.setDay(i);
+				pd.setOrder(j+1);
 				
 				totalList.add(pd);
 			}
 		}
 		
-		param.put("planId", totalList.get(0).getPlanId());
+		param.put("planId", planId);
 		param.put("pdList", totalList);
 		return planDetailMapper.updatePlanDetailList(param);
 	}

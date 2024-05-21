@@ -26,7 +26,7 @@ public interface PlanDetailService {
 	 * @param pdList
 	 * @return
 	 */
-	int updatePlanDetailList(int planId, Map<String, List<PlanDetail>> pdList, int userId);
+	int updatePlanDetailList(int planId,List<List<PlanDetail>> pdList, int userId);
 	
 	/**
 	 * 여행 계획에서 여행지 삭제

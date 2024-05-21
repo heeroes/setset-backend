@@ -68,7 +68,7 @@ public class PlanDetailController {
 	@PutMapping("{planId}")
 	public ResponseEntity<?> updatePlanDetailList(
 			@PathVariable("planId") int planId,
-			@RequestBody Map<String,List<PlanDetail>> planDetailList,
+			@RequestBody List<List<PlanDetail>> planDetailList,
 			@RequestHeader("Authorization") String tokenHeader) {
 		//TODO: process POST request
 		int userId = tokenProvider.extractUserId(tokenHeader.substring(7));
