@@ -58,7 +58,7 @@ public class NewsDaoImpl implements NewsDao{
 		
 		Collections.sort(list);
 		Map<String, Object> results = new HashMap<>();
-		results.put("alarms", list);
+		results.put("news", list);
 		results.put("totalCount", list.size());
 		
 		return results;
