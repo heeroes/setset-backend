@@ -1,4 +1,4 @@
-package com.heeroes.setset.safe.model.service;
+package com.heeroes.setset.safe.model.dao;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -11,10 +11,8 @@ import org.json.simple.parser.ParseException;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.xml.sax.SAXException;
 
-import com.heeroes.setset.safe.dto.News;
+import com.heeroes.setset.safe.dto.DisasterAlarm;
 
-public interface SafeInfoService {
-
-	Map<String, Object> getNewsInfo(int size, int page) throws IOException, SAXException, ParserConfigurationException, URISyntaxException, ParseException;
+public interface DisasterAlarmDao {
 	Map<String, Object> getDisasterInfo(int size, int page) throws IOException, SAXException, ParserConfigurationException, URISyntaxException, ParseException, JSONException;
 }
