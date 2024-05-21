@@ -40,10 +40,12 @@ public class ArticleController {
     @PostMapping("/{groupId}/article")
     public ResponseEntity<Response<String>> create(@PathVariable int groupId,
                                                    @RequestPart List<MultipartFile> attachedFile,
-                                                   @RequestPart Article article,
+                                                   @RequestPart String content,
                                                    @RequestHeader("Authorization") String tokenHeader)
             throws IOException {
         int userId = jwtTokenProvider.extractUserId(tokenHeader.substring(7));
+        Article article = new Article();
+        article.setContent(content);
         article.setGroupId(groupId);
         article.setUserId(userId);
         log.debug("conroller 진입");
