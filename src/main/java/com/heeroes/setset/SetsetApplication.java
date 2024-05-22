@@ -8,6 +8,8 @@ public class SetsetApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SetsetApplication.class, args);
+        
+        
     }
 
 }

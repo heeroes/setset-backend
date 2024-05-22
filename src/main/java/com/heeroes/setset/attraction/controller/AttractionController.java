@@ -14,6 +14,7 @@ import com.heeroes.setset.attraction.dto.Attraction;
 import com.heeroes.setset.attraction.dto.AttractionPaginationResponse;
 import com.heeroes.setset.attraction.model.service.AttractionService;
 import com.heeroes.setset.common.Response;
+import com.heeroes.setset.image.model.service.ConnectionOpenAi;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,6 +34,7 @@ public class AttractionController {
 	 * @param contentTypeId : 여행지 타입
 	 * @param keyword : 검색 키워드
 	 * @return
+	 * @throws Exception 
 	 */
 	@GetMapping("/search")
 	public ResponseEntity<?> searchByKeyword(
@@ -40,7 +42,9 @@ public class AttractionController {
 			@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "0") int contentTypeId,
 			@RequestParam(required = true) String keyword
-	){
+	) throws Exception{
+		ConnectionOpenAi connectionOpenAi = new ConnectionOpenAi();
+        connectionOpenAi.getGeolocation("운계계곡");
 		AttractionPaginationResponse response = attractionService.searchByKeyword(size, page, contentTypeId,keyword);
 		return ResponseEntity.ok(Response.success(response));
 	}
