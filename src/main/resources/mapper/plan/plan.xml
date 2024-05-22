@@ -126,5 +126,15 @@
 		from plan
 		where id=#{id}
 	</select>
+	
+	<!-- plan의 날짜보다 넘어가는 상세 계획 수정 -->
+	<update id="checkPlanDetail" parameterType="map">
+		update plan_detail
+		set day = CASE
+		        	when day > #{days} 
+		        	then 0
+		        	end
+	    where plan_id = #{id}
+	</update>
 
 </mapper>
