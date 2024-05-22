@@ -111,6 +111,10 @@ public class PlanServiceImpl implements PlanService {
 		long days = getDays(plan);
 		
 		JSONObject summary = new JSONObject();
+		summary.put("planId", id);
+		summary.put("groupId", groupId);
+		summary.put("userId", userId);
+		
 		summary.put("region", plan.getRegion());
 		summary.put("start_date", plan.getStartDate());
 		if(days < 2)
