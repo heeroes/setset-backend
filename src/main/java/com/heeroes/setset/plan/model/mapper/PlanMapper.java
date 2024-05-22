@@ -75,4 +75,13 @@ public interface PlanMapper {
 	 * @return
 	 */
 	int selectUserIdByPlanId(int id);
+	
+	/**
+	 * 여행 상세 계획의 일 수가 여행 계획 날짜보다 넘어가게 설정되어 있는 경우 0으로 설정
+	 * @param id
+	 * @param days
+	 * @return
+	 */
+	int checkPlanDetail(Map<String, Object> param);
+
 }

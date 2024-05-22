@@ -50,6 +50,13 @@ public class PlanServiceImpl implements PlanService {
 		Map<String, Object> param = new HashMap<>();
 		param.put("id", id);
 		param.put("plan", plan);
+		
+		long days = getDays(plan);
+		
+		Map<String, Object> checking = new HashMap<>();
+		checking.put("id", id);
+		checking.put("days", days);
+		planMapper.checkPlanDetail(checking);
 
 		return planMapper.updatePlan(param);
 	}
