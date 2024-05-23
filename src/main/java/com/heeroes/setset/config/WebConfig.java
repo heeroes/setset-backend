@@ -24,7 +24,8 @@ public class WebConfig implements WebMvcConfigurer{
 		.addPathPatterns("/**")
 		.excludePathPatterns("/user/login/**")
 		.excludePathPatterns("/safe/**")
-		.excludePathPatterns("/attraction/**");
+		.excludePathPatterns("/attraction/**")
+		.excludePathPatterns("/chatGPT/**");
 	}
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {

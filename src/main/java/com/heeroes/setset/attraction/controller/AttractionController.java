@@ -41,6 +41,7 @@ public class AttractionController {
 			@RequestParam(defaultValue = "0") int contentTypeId,
 			@RequestParam(required = true) String keyword
 	){
+		
 		AttractionPaginationResponse response = attractionService.searchByKeyword(size, page, contentTypeId,keyword);
 		return ResponseEntity.ok(Response.success(response));
 	}
