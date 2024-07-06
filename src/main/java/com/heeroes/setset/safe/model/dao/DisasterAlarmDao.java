@@ -15,4 +15,5 @@ import com.heeroes.setset.safe.dto.DisasterAlarm;
 
 public interface DisasterAlarmDao {
 	Map<String, Object> getDisasterInfo(int size, int page) throws IOException, SAXException, ParserConfigurationException, URISyntaxException, ParseException, JSONException;
+	Map<String, Object> getDisasterInfoByKeyword(int size, int page, String region) throws IOException, SAXException, ParserConfigurationException, URISyntaxException, ParseException, JSONException;
 }
