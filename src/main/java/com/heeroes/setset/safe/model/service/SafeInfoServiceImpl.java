@@ -33,5 +33,12 @@ public class SafeInfoServiceImpl implements SafeInfoService {
 			throws IOException, SAXException, ParserConfigurationException, URISyntaxException, ParseException, JSONException {
 		return disasterAlarmDao.getDisasterInfo(size, page);
 	}
+	
+	@Override
+	public Map<String, Object> getDisasterInfoByKeyword(int size, int page, String region) throws IOException,
+			SAXException, ParserConfigurationException, URISyntaxException, ParseException, JSONException {
+		
+		return disasterAlarmDao.getDisasterInfoByKeyword(size, page, region);
+	}
 
 }

@@ -36,6 +36,15 @@ public class SafeInfoController {
 		return ResponseEntity.ok(Response.success(safeInfoService.getDisasterInfo(size, page)));
 	}
 	
+	@GetMapping("/disaster/search")
+	public ResponseEntity<?> getDisasterInfoByRegion(
+			@RequestParam(defaultValue = "100") int size,
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(required = true) String region) throws IOException, SAXException, ParserConfigurationException, URISyntaxException, ParseException, JSONException {
+		
+		return ResponseEntity.ok(Response.success(safeInfoService.getDisasterInfoByKeyword(size, page, region)));
+	}
+	
 	@GetMapping("/news")
 	public ResponseEntity<?> getNewsInfo(
 			@RequestParam(defaultValue = "100") int size,

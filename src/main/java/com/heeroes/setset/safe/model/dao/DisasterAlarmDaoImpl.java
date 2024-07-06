@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -119,4 +120,21 @@ public class DisasterAlarmDaoImpl implements DisasterAlarmDao {
  		}
     	 
      }
+     
+    @Override
+    public Map<String, Object> getDisasterInfoByKeyword(int size, int page, String region) throws IOException,
+    		SAXException, ParserConfigurationException, URISyntaxException, ParseException, JSONException {
+    	
+    	List<DisasterAlarm> disasterList = (List<DisasterAlarm>)getDisasterInfo(size, page).get("alarms");  //alarms
+    	 
+    	List<DisasterAlarm> filteredList = disasterList.stream()
+                 							.filter(disasterAlarm -> disasterAlarm.getRegion().contains(region))
+                 							.collect(Collectors.toList());
+    	 
+    	Map<String, Object> results = new HashMap<>();
+ 		results.put("alarms", filteredList);
+ 		results.put("totalCount", filteredList.size());
+ 		
+ 		return results;
+    }
 }
