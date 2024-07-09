@@ -128,7 +128,7 @@ public class DisasterAlarmDaoImpl implements DisasterAlarmDao {
     	List<DisasterAlarm> disasterList = (List<DisasterAlarm>)getDisasterInfo(size, page).get("alarms");  //alarms
     	 
     	List<DisasterAlarm> filteredList = disasterList.stream()
-                 							.filter(disasterAlarm -> disasterAlarm.getRegion().contains(region))
+                 							.filter(disasterAlarm -> disasterAlarm.getRegion().replaceAll("\\s", "").contains(region.replaceAll("\\s", "")))
                  							.collect(Collectors.toList());
     	 
     	Map<String, Object> results = new HashMap<>();
