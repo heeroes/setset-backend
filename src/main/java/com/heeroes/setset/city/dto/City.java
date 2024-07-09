@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class City {
 	private String sido;
 	private String gu;

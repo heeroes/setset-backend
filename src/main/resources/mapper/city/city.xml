@@ -5,20 +5,20 @@
 <mapper namespace="com.heeroes.setset.city.model.mapper.CityMapper">
 	<!-- 시도리스트 조회  -->
 	<select id="getSidoList" resultType="city">
-		select sido
+		select distinct sido
 		from city
 	</select>
 	
 	<!-- 시도 기반 구 조회 -->
 	<select id="searchBySido" parameterType="map" resultType="city">
-		select gu
+		select distinct gu
 		from city
 		where sido = #{sido}
 	</select>
 	
 	<!-- 시도, 구 기반 동 조회 -->
 	<select id="searchBySidoGu" parameterType="map" resultType="city">
-		select dong
+		select distinct dong
 		from city
 		where sido = #{sido} and gu = #{gu}
 	</select>
