@@ -23,12 +23,11 @@ public class CityController {
 	
 	@GetMapping("/search")
 	public ResponseEntity<?> searchCity(
-			@RequestParam(required = true) String sido,
-			@RequestParam(required = false) String gu,
-			@RequestParam(required = false) String dong)
+			@RequestParam(required = false) String sido,
+			@RequestParam(required = false) String gu)
 	{
 		
-		List<City> cities = cityService.searchCity(sido, gu, dong);
+		List<City> cities = cityService.searchCity(sido, gu);
 		return ResponseEntity.ok(Response.success(cities));
 	}
 }

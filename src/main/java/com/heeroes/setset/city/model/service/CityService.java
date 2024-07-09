@@ -5,5 +5,5 @@ import java.util.List;
 import com.heeroes.setset.city.dto.City;
 
 public interface CityService {
-	List<City> searchCity(String sido, String gu, String dong); 
+	List<City> searchCity(String sido, String gu); 
 }
