@@ -28,7 +28,11 @@ import org.xml.sax.SAXException;
 
 import com.heeroes.setset.safe.dto.DisasterAlarm;
 
+import ch.qos.logback.classic.Logger;
+import lombok.extern.slf4j.Slf4j;
+
 @Repository
+@Slf4j
 public class DisasterAlarmDaoImpl implements DisasterAlarmDao {
 	@Value("${disaster.alarm.servicekey}")
 	private String disasterKey;
@@ -128,7 +132,26 @@ public class DisasterAlarmDaoImpl implements DisasterAlarmDao {
     	List<DisasterAlarm> disasterList = (List<DisasterAlarm>)getDisasterInfo(size, page).get("alarms");  //alarms
     	 
     	List<DisasterAlarm> filteredList = disasterList.stream()
-                 							.filter(disasterAlarm -> disasterAlarm.getRegion().replaceAll("\\s", "").contains(region.replaceAll("\\s", "")))
+                 							.filter(disasterAlarm -> {
+                 								String[] addr = region.trim().split(" ");
+                 								log.debug("addr length : " + addr.length);
+                 								switch(addr.length) {
+                 								case 1:
+                 									return disasterAlarm.getRegion().replaceAll("\\s", "").contains(addr[0].replaceAll("\\s", ""));
+                 								
+                 								case 2:
+                 									return disasterAlarm.getRegion().replaceAll("\\s", "").contains((addr[0] + addr[1]).replaceAll("\\s", "")) ||
+                 											disasterAlarm.getRegion().replaceAll("\\s", "").contains(addr[0].replaceAll("\\s", "")+"전체");
+                 									
+                 								case 3:
+                 									return disasterAlarm.getRegion().replaceAll("\\s", "").contains(region.replaceAll("\\s", "")) ||
+                 											disasterAlarm.getRegion().replaceAll("\\s", "").contains((addr[0] + addr[1]).replaceAll("\\s", "")) ||
+                 											disasterAlarm.getRegion().replaceAll("\\s", "").contains(addr[0].replaceAll("\\s", "")+"전체");
+                 								
+                 								}
+												return false;
+                 								
+                 							})
                  							.collect(Collectors.toList());
     	 
     	Map<String, Object> results = new HashMap<>();
